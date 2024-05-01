@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1006559214963",
+    "project_id": "na3imn-project",
+    "storage_bucket": "na3imn-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1006559214963:android:b08141c610d1b49a5f5906",
+        "android_client_info": {
+          "package_name": "com.example.n3imn_project_team"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgpylFPQVrObJTnQfEVvZhYflmm6F6hAw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
