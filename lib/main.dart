@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:n3imn_project_team/dep_injection/dependency_injection.dart';
 import 'package:n3imn_project_team/skelton_screen.dart';
 import 'package:n3imn_project_team/view/barber_screens/auth_screens/signup_barber_screen.dart';
 import 'package:n3imn_project_team/view/barber_screens/home_navigation_screens/barber_home_screen.dart';
@@ -21,6 +22,7 @@ void main() async {
               messagingSenderId: "131339357139",
               projectId: "na3imn-project"))
       : Firebase.initializeApp();
+  setupDependncyInjection();
   runApp(const MyApp());
 }
 
