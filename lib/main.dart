@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:n3imn_project_team/dep_injection/dependency_injection.dart';
+import 'package:n3imn_project_team/routes/routes.dart';
 import 'package:n3imn_project_team/skelton_screen.dart';
 import 'package:n3imn_project_team/view/barber_screens/auth_screens/signup_barber_screen.dart';
 import 'package:n3imn_project_team/view/barber_screens/home_navigation_screens/barber_home_screen.dart';
@@ -45,15 +46,6 @@ class _MyAppState extends State<MyApp> {
                 iconTheme: IconThemeData(color: Colors.white))),
         debugShowCheckedModeBanner: false,
         home: const Skelton(),
-        routes: {
-          "barbersignup": (context) => const SignUpBarber(),
-          "barberlogin": (context) => const LoginScreen(),
-          "barberhomepage": (context) => const BarberHomeScreen(),
-          "barberresetpassword": (context) => const ResetPassowrd(),
-          "customersignup": (context) => const SignUpCustomer(),
-          "customerlogin": (context) => const LoginScreen(),
-          "customerhomepage": (context) => const CustomerHomeScreen(),
-          "customerresetpassword": (context) => const ResetPassowrd()
-        });
+        routes: Routes.getAllRoutes());
   }
 }
