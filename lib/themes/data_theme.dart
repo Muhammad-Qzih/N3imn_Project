@@ -20,7 +20,7 @@ class AppTheme {
         titleMedium:
             TextStyle(fontSize: 16, color: AppColor.TEXT_SECONDARY_LIGHT),
         titleSmall:
-            TextStyle(fontSize: 14, color: AppColor.TEXT_SECONDARY),
+            TextStyle(fontSize: 14, color: AppColor.TEXT_SECONDARY_LIGHT),
         bodyLarge:
             TextStyle(fontSize: 18, color: AppColor.TEXT_SECONDARY_LIGHT),
         bodyMedium:
