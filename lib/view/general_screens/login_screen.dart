@@ -74,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 const SizedBox(
                                   height: 20,
                                 ),
-                                _buildUsernameTextField(
+                                _buildIconTextField(
                                     "Email",
                                     false,
                                     Icons.email_outlined,
@@ -83,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 const SizedBox(
                                   height: 10,
                                 ),
-                                _buildUsernameTextField(
+                                _buildIconTextField(
                                     "Passsowrd",
                                     true,
                                     Icons.lock_outline_rounded,
@@ -116,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-Widget _buildUsernameTextField(String hintText, bool obsecureText,
+Widget _buildIconTextField(String hintText, bool obsecureText,
     IconData iconData, Color color, TextEditingController controller) {
   return CustomIconTextField(
     hintText: hintText,
