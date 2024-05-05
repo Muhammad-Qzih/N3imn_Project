@@ -5,6 +5,7 @@ import 'package:n3imn_project_team/themes/colors_theme.dart';
 import 'package:n3imn_project_team/view/custom_components/general_components/ApplicationLogo.dart';
 import 'package:n3imn_project_team/view/custom_components/general_components/custom_auth_button.dart';
 import 'package:n3imn_project_team/view/custom_components/general_components/custom_icon_text_field.dart';
+import 'package:n3imn_project_team/view/custom_components/general_components/custom_methode.dart';
 import 'package:n3imn_project_team/view_model/auth_models/signin_view_model.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -28,87 +29,83 @@ class _LoginScreenState extends State<LoginScreen> {
         child: ListView(
           children: [
             Form(
-              key: formState,
+                key: formState,
                 child: Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 15),
-                  ApplicationLogo(width: 200, height: 200),
-                  Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("Welcome !",
-                            style: theme.textTheme.displayLarge
-                                ?.copyWith(color: AppColor.TEXT_SECONDARY)),
-                        Text(
-                          'Sign in to continue',
-                          style: theme.textTheme.displayLarge
-                              ?.copyWith(color: AppColor.TEXT_SECONDARY),
-                        ),
-                        const SizedBox(height: 20),
-                        Container(
-                          height: 500,
-                          width: 400,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(9)),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onBackground
-                                      .withOpacity(0.2),
-                                  spreadRadius: 3,
-                                  blurRadius: 1,
-                                  offset: const Offset(3, 3)),
-                            ],
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                _buildIconTextField(
-                                    "Email",
-                                    false,
-                                    Icons.email_outlined,
-                                    theme.colorScheme.primary,
-                                    signInViewModel.emailController),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                _buildIconTextField(
-                                    "Passsowrd",
-                                    true,
-                                    Icons.lock_outline_rounded,
-                                    theme.colorScheme.primary,
-                                    signInViewModel.passwordController),
-                                _buildTextForgetPasswrod(
-                                    theme.textTheme.titleMedium),
-                                const SizedBox(
-                                  height: 30,
-                                ),
-                                _buildSginInButton(),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                              _buildRegisterSection(context, theme),
-                              ],
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildSizedBox(15),
+                      ApplicationLogo(width: 200, height: 150),
+                      Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("Welcome !",
+                                style: theme.textTheme.displayLarge
+                                    ?.copyWith(color: AppColor.TEXT_SECONDARY)),
+                            Text(
+                              'Sign in to continue',
+                              style: theme.textTheme.displayLarge
+                                  ?.copyWith(color: AppColor.TEXT_SECONDARY),
                             ),
-                          ),
+                            _buildSizedBox(20),
+                            Container(
+                              height: 500,
+                              width: 400,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(9)),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.grey.shade900
+                                          .withOpacity(0.199),
+                                      spreadRadius: 3,
+                                      blurRadius: 1,
+                                      offset: const Offset(3, 3)),
+                                ],
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    _buildSizedBox(20),
+                                    _buildIconTextField(
+                                        "Email",
+                                        false,
+                                        Icons.email,
+                                        theme.colorScheme.primary,
+                                        signInViewModel.emailController),
+                                    _buildSizedBox(10),
+                                    _buildIconTextField(
+                                        "Passsowrd",
+                                        true,
+                                        Icons.lock,
+                                        theme.colorScheme.primary,
+                                        signInViewModel.passwordController),
+                                    _buildTextForgetPasswrod(
+                                        theme.textTheme.titleMedium, context),
+                                    _buildSizedBox(25),
+                                    _buildSginInButton(),
+                                    _buildSizedBox(20),
+                                    _buildDivider(),
+                                    _buildSizedBox(20),
+                                    _googleAppleSignIn(),
+                                    _buildSizedBox(20),  
+                                    _buildSignUpAsCustomer(context,theme ),
+                                    _buildSignUpAsBarber(context, theme),
+                                  
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ))
+                ))
           ],
         ),
       ),
@@ -126,21 +123,31 @@ Widget _buildIconTextField(String hintText, bool obsecureText,
   );
 }
 
-Widget _buildTextForgetPasswrod(TextStyle? textStyle) {
+Widget _buildTextForgetPasswrod(TextStyle? textStyle, BuildContext context) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.end,
     children: [
       InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.pushNamed(context, "customerresetpassword");
+        },
         child: Text("Forgot Password?", style: textStyle),
       )
     ],
   );
 }
 
+Widget _buildSizedBox(double height) {
+  return SizedBox(
+    height: height,
+  );
+}
+
 Widget _buildSginInButton() {
   return const Padding(
-    padding: EdgeInsets.symmetric(horizontal: 100),
+    padding: EdgeInsets.symmetric(
+      horizontal: 100,
+    ),
     child: Column(
       children: [
         CsutomAuthButton(
@@ -151,14 +158,12 @@ Widget _buildSginInButton() {
   );
 }
 
-
-
-Widget _buildRegisterSection(BuildContext context, ThemeData theme) {
+Widget _buildSignUpAsBarber(BuildContext context, ThemeData theme) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       Text(
-        "Don't have an account? ",
+        "Sign up as a barber? ",
         style: theme.textTheme.titleSmall,
       ),
       const SizedBox(
@@ -167,6 +172,7 @@ Widget _buildRegisterSection(BuildContext context, ThemeData theme) {
       InkWell(
         onTap: () {
           // Handle onTap event
+          Navigator.pushReplacementNamed(context, "barbersignup");
         },
         child: Text(
           "Sign up",
@@ -178,5 +184,82 @@ Widget _buildRegisterSection(BuildContext context, ThemeData theme) {
         ),
       )
     ],
+  );
+}
+
+
+Widget _buildSignUpAsCustomer(BuildContext context, ThemeData theme) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Text(
+        "Sign up as a customer? ",
+        style: theme.textTheme.titleSmall,
+      ),
+      const SizedBox(
+        width: 5,
+      ),
+      InkWell(
+        onTap: () {
+          // Handle onTap event
+          Navigator.pushReplacementNamed(context, "customersignup");
+        },
+        child: Text(
+          "Sign up",
+          style: TextStyle(
+            color: Color.fromARGB(255, 2, 116, 209),
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      )
+    ],
+  );
+}
+
+
+Widget _googleAppleSignIn() {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      CustomMethode(
+        imagePath: "Images/google-icon-1.png",
+        onPressed: () async {},
+      ),
+      const SizedBox(
+        width: 20,
+      ),
+      CustomMethode(
+        imagePath: "Images/apple-icon-4.png",
+        onPressed: () {},
+      ),
+    ],
+  );
+}
+
+Widget _buildDivider() {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+    child: Row(
+      children: [
+        Expanded(
+            child: Divider(
+          thickness: 0.5,
+          color: Colors.grey[500],
+        )),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Text(
+            "Or Continue With",
+            style: TextStyle(color: Colors.grey[800], fontSize: 12),
+          ),
+        ),
+        Expanded(
+            child: Divider(
+          thickness: 0.5,
+          color: Colors.grey[500],
+        ))
+      ],
+    ),
   );
 }
