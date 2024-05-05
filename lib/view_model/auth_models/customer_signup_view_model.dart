@@ -2,11 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:n3imn_project_team/dep_injection/dependency_injection.dart';
-import 'package:n3imn_project_team/repositories/user_repo/barber_repsitory/barber_repo.dart';
+import 'package:n3imn_project_team/repositories/user_repo/customer_repository/csutomer_repo.dart';
 import 'package:n3imn_project_team/utils/global_exception_hadller/enums/status_exceptoin.dart';
 
-class BarberSignUpViewModel extends ChangeNotifier {
-  final BarberRepository _barberRepository = getIt<BarberRepository>();
+class CustomerSignUpViewModle extends ChangeNotifier {
+  final CustomerRepository _barberRepository = getIt<CustomerRepository>();
   final TextEditingController _username = TextEditingController();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();

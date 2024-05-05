@@ -34,7 +34,7 @@ class CsutomAuthButton extends StatelessWidget {
         ],
       ),
       child: MaterialButton(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 30),
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 50),
         onPressed: onPressed,
         child: Text(buttonText, style: textStyle),
       ),
