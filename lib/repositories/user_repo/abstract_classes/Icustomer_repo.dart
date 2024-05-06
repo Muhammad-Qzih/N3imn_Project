@@ -1,3 +1,7 @@
 // ignore_for_file: file_names
 
-abstract class ICustomerRepository {}
+import 'package:n3imn_project_team/model/user_model/customer_model.dart';
+
+abstract class ICustomerRepository {
+  Future<void> addCustomer(String userId, Customer customer);
+}
