@@ -26,7 +26,6 @@ class BarberSalon {
 
   Map<String, dynamic> toJson() {
     return {
-      "passwrd": passwrod,
       'email': email,
       'phoneNumber': phoneNumber,
       'shopName': shopName,

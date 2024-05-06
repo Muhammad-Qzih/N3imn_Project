@@ -6,7 +6,8 @@ import 'package:n3imn_project_team/repositories/user_repo/customer_repository/cs
 import 'package:n3imn_project_team/utils/global_exception_hadller/enums/status_exceptoin.dart';
 
 class CustomerSignUpViewModle extends ChangeNotifier {
-  final CustomerRepository _barberRepository = getIt<CustomerRepository>();
+  // final CustomerRepository _barberRepository = getIt<CustomerRepository>();
+  final CustomerRepository _barberRepository = CustomerRepository();
   final TextEditingController _username = TextEditingController();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();

@@ -4,8 +4,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:n3imn_project_team/dep_injection/dependency_injection.dart';
 import 'package:n3imn_project_team/routes/routes.dart';
-import 'package:n3imn_project_team/skelton_screen.dart';
 import 'package:n3imn_project_team/themes/data_theme.dart';
+import 'package:n3imn_project_team/view/general_screens/login_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,9 +32,9 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-    theme: AppTheme.getAppTheme(),
+        theme: AppTheme.getAppTheme(),
         debugShowCheckedModeBanner: false,
-        home: const Skelton(),
+        home: const LoginScreen(),
         routes: Routes.getAllRoutes());
   }
 }
