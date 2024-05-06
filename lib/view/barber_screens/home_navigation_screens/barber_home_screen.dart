@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:n3imn_project_team/view/custom_components/general_components/drawer-menu.dart';
 
 class BarberHomeScreen extends StatefulWidget {
   const BarberHomeScreen({super.key});
@@ -12,7 +13,7 @@ class _BarberHomeScreenState extends State<BarberHomeScreen> {
   Widget build(BuildContext context) {
     return   Scaffold(
       appBar: AppBar(),
-      body: const Center(child: Text("Barber Home"),),
+      body: DrawerMenu(),
     );
   }
 }
