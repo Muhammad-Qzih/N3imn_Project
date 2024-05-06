@@ -25,7 +25,6 @@ class Customer {
     return {
       'username': username,
       'email': email,
-      'password': password,
       'phoneNumber': phoneNumber,
       "userType": userType
     };

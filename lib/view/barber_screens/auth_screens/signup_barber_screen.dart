@@ -14,6 +14,7 @@ class SignUpBarber extends StatefulWidget {
 
 class _SignUpBarberState extends State<SignUpBarber> {
   final barbersignUpViewModel = BarberSignUpViewModel();
+  GlobalKey<FormState> formState = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,6 +24,7 @@ class _SignUpBarberState extends State<SignUpBarber> {
         child: ListView(
           children: [
             Form(
+              key: formState,
                 child: Center(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,8 +86,8 @@ class _SignUpBarberState extends State<SignUpBarber> {
                                     Icons.phone,
                                     AppColor.PRIMARY,
                                     barbersignUpViewModel.phoneController),
-                                      _buildSizedBox(10),
-                                    _buildIconTextField(
+                                _buildSizedBox(10),
+                                _buildIconTextField(
                                     "Location",
                                     false,
                                     Icons.location_on,
@@ -99,7 +101,7 @@ class _SignUpBarberState extends State<SignUpBarber> {
                                     AppColor.PRIMARY,
                                     barbersignUpViewModel.passwordController),
                                 _buildSizedBox(30),
-                                _buildSginUpButton(),
+                                _buildSginUpButton(barbersignUpViewModel, context, formState),
                                 _buildSizedBox(20),
                                 _buildSignupFooter(context),
                               ],
@@ -135,20 +137,24 @@ Widget _buildSizedBox(double height) {
   );
 }
 
-Widget _buildSginUpButton() {
-  return const Padding(
-    padding: EdgeInsets.symmetric(horizontal: 40),
+Widget _buildSginUpButton(BarberSignUpViewModel barberSignUpViewModel,
+    BuildContext context, GlobalKey<FormState> formState) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 40),
     child: Column(
       children: [
         CsutomAuthButton(
           buttonText: 'Sign up',
+          onPressed: () async {
+            barberSignUpViewModel.barberSignUp(context, formState);
+          },
         ),
       ],
     ),
   );
 }
 
-Widget _buildSignupFooter(BuildContext  context) {
+Widget _buildSignupFooter(BuildContext context) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
@@ -161,8 +167,8 @@ Widget _buildSignupFooter(BuildContext  context) {
       ),
       InkWell(
         onTap: () {
-    Navigator.pushReplacementNamed(context, "barberlogin");
-  },
+          Navigator.pushReplacementNamed(context, "barberlogin");
+        },
         child: const Text("Sign in",
             style: TextStyle(
                 color: Color.fromARGB(255, 2, 116, 209),
