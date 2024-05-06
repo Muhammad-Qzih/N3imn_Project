@@ -8,9 +8,12 @@ class CustomerAuthService implements ICustomerAuth{
   final FirebaseAuth _auth = FirebaseAuth.instance;
   
   @override
-  Future<UserCredential> signUp(String email, String password) {
-    // TODO: implement signUp
-    throw UnimplementedError();
+  Future<UserCredential> signUp(String email, String password) async {
+    UserCredential user = await _auth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    return user;
   }
 }
 
