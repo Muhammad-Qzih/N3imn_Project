@@ -4,12 +4,12 @@ import 'package:n3imn_project_team/dep_injection/dependency_injection.dart';
 import 'package:n3imn_project_team/model/user_model/barber_model.dart';
 import 'package:n3imn_project_team/model/user_model/user_types.dart';
 import 'package:n3imn_project_team/repositories/user_repo/barber_repsitory/barber_repo.dart';
-import 'package:n3imn_project_team/services/auth_service/barber_auth_service/barber_auth.dart';
+import 'package:n3imn_project_team/services/auth_service/auth_service.dart';
 import 'package:n3imn_project_team/utils/global_exception_hadller/enums/status_exceptoin.dart';
 import 'package:n3imn_project_team/utils/global_exception_hadller/exception_hadller.dart';
 
 class BarberSignUpViewModel extends ChangeNotifier {
-  final _barberAuthService = getIt<BarberAuthService>();
+  final _barberAuthService = getIt<AuthService>();
   // final _barberRepository = getIt<BarberRepository>();
   final _barberRepository = BarberRepository();
   final TextEditingController _email = TextEditingController();

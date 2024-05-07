@@ -1,9 +1,9 @@
 // ignore_for_file: unused_field, non_constant_identifier_names
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:n3imn_project_team/services/auth_service/abstract_auth/barber_abstract_service.dart';
+import 'package:n3imn_project_team/services/auth_service/abstract_auth/abstract_auth_service.dart';
 
-class BarberAuthService implements IBarberAuth {
+class AuthService implements IAuth {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
@@ -14,5 +14,12 @@ class BarberAuthService implements IBarberAuth {
     );
 
     return userCredential;
+  }
+  @override
+  Future<UserCredential> signIn(String email, String password) async {
+    return await _auth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
   }
 }
