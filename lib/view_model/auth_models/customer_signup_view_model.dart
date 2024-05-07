@@ -11,7 +11,6 @@ import 'package:n3imn_project_team/utils/global_exception_hadller/enums/status_e
 import 'package:n3imn_project_team/utils/global_exception_hadller/exception_hadller.dart';
 
 class CustomerSignUpViewModle extends ChangeNotifier {
-  
   final CustomerRepository _customerRepository = CustomerRepository();
   final TextEditingController _username = TextEditingController();
   final TextEditingController _email = TextEditingController();
@@ -30,24 +29,26 @@ class CustomerSignUpViewModle extends ChangeNotifier {
 
   Future<void> customerSingUp(
       BuildContext context, GlobalKey<FormState> formState) async {
-    ExceptionHandller.handle(() async {
-      Customer customer = Customer(
-          userType: UserType.customer.index,
-          username: nameController.text,
-          email: emailController.text,
-          phoneNumber: phoneController.text,
-          password: passwordController.text);
+    if (formState.currentState!.validate()) {
+      ExceptionHandller.handle(() async {
+        Customer customer = Customer(
+            userType: UserType.customer.index,
+            username: nameController.text,
+            email: emailController.text,
+            phoneNumber: phoneController.text,
+            password: passwordController.text);
 
-      UserCredential userCredential =
-          await _customerAuthService.signUp(customer.email, customer.password);
+        UserCredential userCredential = await _customerAuthService.signUp(
+            customer.email, customer.password);
 
-      final user = userCredential.user;
+        final user = userCredential.user;
 
-      if (user != null) {
-        await _customerRepository.addCustomer(
-            userCredential.user!.uid, customer);
-        Navigator.of(context).pushReplacementNamed("customerlogin");
-      }
-    }, context);
+        if (user != null) {
+          await _customerRepository.addCustomer(
+              userCredential.user!.uid, customer);
+          Navigator.of(context).pushReplacementNamed("customerlogin");
+        }
+      }, context);
+    }
   }
 }

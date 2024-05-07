@@ -1,5 +1,3 @@
-// ignore_for_file: unused_field, unused_local_variable, use_build_context_synchronously
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:n3imn_project_team/dep_injection/dependency_injection.dart';
@@ -29,29 +27,31 @@ class BarberSignUpViewModel extends ChangeNotifier {
 
   Future<void> barberSignUp(
       BuildContext context, GlobalKey<FormState> formState) async {
-    ExceptionHandller.handle(() async {
-      BarberSalon barberSalon = BarberSalon(
-        email: emailController.text,
-        passwrod: passwordController.text,
-        phoneNumber: phoneController.text,
-        location: locationController.text,
-        shopName: usernameContrller.text,
-        userType: UserType.barber.index,
-      );
+    if (formState.currentState!.validate()) {
+      ExceptionHandller.handle(() async {
+        BarberSalon barberSalon = BarberSalon(
+          email: emailController.text,
+          passwrod: passwordController.text,
+          phoneNumber: phoneController.text,
+          location: locationController.text,
+          shopName: usernameContrller.text,
+          userType: UserType.barber.index,
+        );
 
-      UserCredential userCredential = await _barberAuthService.signUp(
-          barberSalon.email, barberSalon.passwrod);
+        UserCredential userCredential = await _barberAuthService.signUp(
+            barberSalon.email, barberSalon.passwrod);
 
-      final user = userCredential.user;
+        final user = userCredential.user;
 
-      if (user != null) {
-        await _barberRepository.addBarber(
-            userCredential.user!.uid, barberSalon);
-        _status = AuthResultStatus.successful;
-        Navigator.of(context).pushReplacementNamed("barberhomepage");
-      } else {
-        _status = AuthResultStatus.undefined;
-      }
-    }, context);
+        if (user != null) {
+          await _barberRepository.addBarber(
+              userCredential.user!.uid, barberSalon);
+          _status = AuthResultStatus.successful;
+          Navigator.of(context).pushReplacementNamed("barberhomepage");
+        } else {
+          _status = AuthResultStatus.undefined;
+        }
+      }, context);
+    }
   }
 }

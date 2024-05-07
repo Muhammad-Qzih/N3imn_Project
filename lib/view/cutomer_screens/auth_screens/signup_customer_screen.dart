@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:n3imn_project_team/themes/colors_theme.dart';
+import 'package:n3imn_project_team/utils/validations/auth_validator.dart';
 import 'package:n3imn_project_team/view/custom_components/general_components/ApplicationLogo.dart';
 import 'package:n3imn_project_team/view/custom_components/general_components/custom_auth_button.dart';
 import 'package:n3imn_project_team/view/custom_components/general_components/custom_icon_text_field.dart';
@@ -70,28 +71,29 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
                                     false,
                                     Icons.person,
                                     AppColor.PRIMARY,
-                                    customerSignUpViewModel.nameController),
+                                    customerSignUpViewModel.nameController, AuthValidator.isValidName),
                                 _buildSizedBox(10),
                                 _buildIconTextField(
                                     "Email",
                                     false,
                                     Icons.email,
                                     AppColor.PRIMARY,
-                                    customerSignUpViewModel.emailController),
+                                    customerSignUpViewModel.emailController, AuthValidator.isValidEmail),
+                                  
                                 _buildSizedBox(10),
                                 _buildIconTextField(
                                     "Phone Number",
                                     false,
                                     Icons.phone,
                                     AppColor.PRIMARY,
-                                    customerSignUpViewModel.phoneController),
+                                    customerSignUpViewModel.phoneController, AuthValidator.isValidPhone),
                                 _buildSizedBox(10),
                                 _buildIconTextField(
                                     "Passsowrd",
                                     true,
                                     Icons.lock,
                                     AppColor.PRIMARY,
-                                    customerSignUpViewModel.passwordController),
+                                    customerSignUpViewModel.passwordController, AuthValidator.isValidPassword),
                                 _buildSizedBox(30),
                                 _buildSginUpButton(customerSignUpViewModel,
                                     context, formState),
@@ -115,12 +117,13 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
 }
 
 Widget _buildIconTextField(String hintText, bool obsecureText,
-    IconData iconData, Color color, TextEditingController controller) {
+    IconData iconData, Color color, TextEditingController controller, String? Function(String?)? validator, ) {
   return CustomIconTextField(
     hintText: hintText,
     obsecureText: obsecureText,
     icon: Icon(iconData, color: color),
     textEditingController: controller,
+    validator: validator,
   );
 }
 
