@@ -1,6 +1,7 @@
 // ignore_for_file: unused_field, non_constant_identifier_names
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:n3imn_project_team/services/auth_service/abstract_auth/abstract_auth_service.dart';
 
 class AuthService implements IAuth {
@@ -24,7 +25,32 @@ class AuthService implements IAuth {
     );
   }
 
+  @override
   Future<void> signOut() async {
     return await _auth.signOut();
+  }
+
+  @override
+  Future<AuthCredential?> getGoogleSignInCredentials() async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    if (googleUser == null) {
+      return null;
+    }
+
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    return credential;
+  }
+
+  @override
+  Future<UserCredential> signInWithCredential(AuthCredential credential) async {
+    return await _auth.signInWithCredential(credential);
   }
 }

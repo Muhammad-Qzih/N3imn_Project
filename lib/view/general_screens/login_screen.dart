@@ -7,6 +7,7 @@ import 'package:n3imn_project_team/view/custom_components/general_components/App
 import 'package:n3imn_project_team/view/custom_components/general_components/custom_auth_button.dart';
 import 'package:n3imn_project_team/view/custom_components/general_components/custom_icon_text_field.dart';
 import 'package:n3imn_project_team/view/custom_components/general_components/custom_methode.dart';
+import 'package:n3imn_project_team/view_model/auth_models/csutomer_google_view_model.dart';
 import 'package:n3imn_project_team/view_model/auth_models/signin_view_model.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -19,6 +20,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final signInViewModel = SignInViewModel();
   GlobalKey<FormState> formState = GlobalKey<FormState>();
+  final GoogleSignInViewModel _googleSignInViewModel = GoogleSignInViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     _buildSizedBox(20),
                                     _buildDivider(),
                                     _buildSizedBox(20),
-                                    _googleAppleSignIn(),
+                                    _googleAppleSignIn(context,_googleSignInViewModel),
                                     _buildSizedBox(20),
                                     _buildSignUpAsCustomer(context, theme),
                                     _buildSignUpAsBarber(context, theme),
@@ -230,20 +232,24 @@ Widget _buildSignUpAsCustomer(BuildContext context, ThemeData theme) {
   );
 }
 
-Widget _googleAppleSignIn() {
+Widget _googleAppleSignIn(
+    BuildContext context, GoogleSignInViewModel _googleSignInViewModel) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       CustomMethode(
-        imagePath: "Images/google-icon-1.png",
-        onPressed: () async {},
-      ),
+          imagePath: "Images/google-icon-1.png",
+          onPressed: () async {
+            await _googleSignInViewModel.signInWithGoogle(context);
+          }),
       const SizedBox(
         width: 20,
       ),
       CustomMethode(
         imagePath: "Images/apple-icon-4.png",
-        onPressed: () {},
+        onPressed: () {
+          // Implement Apple sign-in logic
+        },
       ),
     ],
   );
