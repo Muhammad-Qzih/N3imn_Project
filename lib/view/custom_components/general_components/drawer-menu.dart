@@ -2,27 +2,32 @@
 
 import 'package:flutter/material.dart';
 import 'package:n3imn_project_team/themes/colors_theme.dart';
+import 'package:n3imn_project_team/view_model/auth_models/logout_view_model.dart';
 
 class DrawerMenu extends StatelessWidget {
-
+  final signOutViewModel = UserSignOutViewModel();
   @override
   Widget build(BuildContext context) {
     return Drawer(
-        backgroundColor: AppColor.PRIMARY,
-        child: Column( mainAxisAlignment: MainAxisAlignment.end,
-          children: [ 
-            _buildDrawerItem(
-              title: "Sign Out",
-              icon: Icons.exit_to_app,
-              onTap: () {
-                // Add sign out logic here
-              },
-            ),
-            const SizedBox(height: 100,)
-          ],
-        ),
+      backgroundColor: AppColor.PRIMARY,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          _buildDrawerItem(
+            title: "Sign Out",
+            icon: Icons.exit_to_app,
+            onTap: () async {
+              await signOutViewModel.signOut(context);
+            },
+          ),
+          const SizedBox(
+            height: 100,
+          )
+        ],
+      ),
     );
   }
+
   Widget _buildDrawerItem({
     required String title,
     IconData? icon,

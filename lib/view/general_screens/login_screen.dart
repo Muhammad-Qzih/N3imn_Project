@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:n3imn_project_team/themes/colors_theme.dart';
+import 'package:n3imn_project_team/utils/validations/auth_validator.dart';
 import 'package:n3imn_project_team/view/custom_components/general_components/ApplicationLogo.dart';
 import 'package:n3imn_project_team/view/custom_components/general_components/custom_auth_button.dart';
 import 'package:n3imn_project_team/view/custom_components/general_components/custom_icon_text_field.dart';
@@ -76,26 +77,28 @@ class _LoginScreenState extends State<LoginScreen> {
                                         false,
                                         Icons.email,
                                         theme.colorScheme.primary,
-                                        signInViewModel.emailController),
+                                        signInViewModel.emailController,
+                                        AuthValidator.isValidEmail),
                                     _buildSizedBox(10),
                                     _buildIconTextField(
                                         "Passsowrd",
                                         true,
                                         Icons.lock,
                                         theme.colorScheme.primary,
-                                        signInViewModel.passwordController),
+                                        signInViewModel.passwordController,
+                                        AuthValidator.isValidPassword),
                                     _buildTextForgetPasswrod(
                                         theme.textTheme.titleMedium, context),
                                     _buildSizedBox(25),
-                                    _buildSginInButton(signInViewModel,formState ,context),
+                                    _buildSginInButton(
+                                        signInViewModel, formState, context),
                                     _buildSizedBox(20),
                                     _buildDivider(),
                                     _buildSizedBox(20),
                                     _googleAppleSignIn(),
-                                    _buildSizedBox(20),  
-                                    _buildSignUpAsCustomer(context,theme ),
+                                    _buildSizedBox(20),
+                                    _buildSignUpAsCustomer(context, theme),
                                     _buildSignUpAsBarber(context, theme),
-                                  
                                   ],
                                 ),
                               ),
@@ -113,13 +116,20 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-Widget _buildIconTextField(String hintText, bool obsecureText,
-    IconData iconData, Color color, TextEditingController controller) {
+Widget _buildIconTextField(
+  String hintText,
+  bool obsecureText,
+  IconData iconData,
+  Color color,
+  TextEditingController controller,
+  String? Function(String?)? validator,
+) {
   return CustomIconTextField(
     hintText: hintText,
     obsecureText: obsecureText,
     icon: Icon(iconData, color: color),
     textEditingController: controller,
+    validator: validator,
   );
 }
 
@@ -143,8 +153,9 @@ Widget _buildSizedBox(double height) {
   );
 }
 
-Widget _buildSginInButton(SignInViewModel signInViewModel, GlobalKey<FormState> formState , BuildContext context) {
-  return  Padding(
+Widget _buildSginInButton(SignInViewModel signInViewModel,
+    GlobalKey<FormState> formState, BuildContext context) {
+  return Padding(
     padding: EdgeInsets.symmetric(
       horizontal: 100,
     ),
@@ -190,7 +201,6 @@ Widget _buildSignUpAsBarber(BuildContext context, ThemeData theme) {
   );
 }
 
-
 Widget _buildSignUpAsCustomer(BuildContext context, ThemeData theme) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
@@ -219,7 +229,6 @@ Widget _buildSignUpAsCustomer(BuildContext context, ThemeData theme) {
     ],
   );
 }
-
 
 Widget _googleAppleSignIn() {
   return Row(
