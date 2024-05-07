@@ -15,4 +15,7 @@ class CustomerRepository implements ICustomerRepository {
       customer.toJson(),
     );
   }
+  Future<DocumentSnapshot?> getCustomerDocumentByID(String customerId) async {
+    return await _customerCollection.doc(customerId).get();
+  }
 }

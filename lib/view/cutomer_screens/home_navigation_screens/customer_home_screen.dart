@@ -10,10 +10,13 @@ class CustomerHomeScreen extends StatefulWidget {
 
 class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
   @override
-  Widget build(BuildContext context) {
-    return   Scaffold(
-      appBar: AppBar(),
-      body: DrawerMenu(),
-    );
-  }
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(),
+    body: const Center(
+      child: Text('Customer Home',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold ,color: Colors.white),), 
+    ),
+    drawer: DrawerMenu(), 
+  );
+}
 }

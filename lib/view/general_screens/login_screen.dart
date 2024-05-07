@@ -87,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     _buildTextForgetPasswrod(
                                         theme.textTheme.titleMedium, context),
                                     _buildSizedBox(25),
-                                    _buildSginInButton(),
+                                    _buildSginInButton(signInViewModel,formState ,context),
                                     _buildSizedBox(20),
                                     _buildDivider(),
                                     _buildSizedBox(20),
@@ -143,8 +143,8 @@ Widget _buildSizedBox(double height) {
   );
 }
 
-Widget _buildSginInButton() {
-  return const Padding(
+Widget _buildSginInButton(SignInViewModel signInViewModel, GlobalKey<FormState> formState , BuildContext context) {
+  return  Padding(
     padding: EdgeInsets.symmetric(
       horizontal: 100,
     ),
@@ -152,6 +152,9 @@ Widget _buildSginInButton() {
       children: [
         CsutomAuthButton(
           buttonText: 'Sign in',
+          onPressed: () {
+            signInViewModel.signIn(context, formState);
+          },
         ),
       ],
     ),

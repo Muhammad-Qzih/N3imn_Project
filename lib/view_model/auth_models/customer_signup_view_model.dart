@@ -6,7 +6,7 @@ import 'package:n3imn_project_team/dep_injection/dependency_injection.dart';
 import 'package:n3imn_project_team/model/user_model/customer_model.dart';
 import 'package:n3imn_project_team/model/user_model/user_types.dart';
 import 'package:n3imn_project_team/repositories/user_repo/customer_repository/csutomer_repo.dart';
-import 'package:n3imn_project_team/services/auth_service/customer_auth_service/customer_auth.dart';
+import 'package:n3imn_project_team/services/auth_service/auth_service.dart';
 import 'package:n3imn_project_team/utils/global_exception_hadller/enums/status_exceptoin.dart';
 import 'package:n3imn_project_team/utils/global_exception_hadller/exception_hadller.dart';
 
@@ -17,7 +17,7 @@ class CustomerSignUpViewModle extends ChangeNotifier {
   final TextEditingController _password = TextEditingController();
   final TextEditingController _phone = TextEditingController();
   late final AuthResultStatus _status;
-  final _customerAuthService = getIt<CustomerAuthService>();
+  final _customerAuthService = getIt<AuthService>();
 
   TextEditingController get nameController => _username;
 

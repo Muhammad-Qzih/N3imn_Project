@@ -11,9 +11,16 @@ class BarberHomeScreen extends StatefulWidget {
 class _BarberHomeScreenState extends State<BarberHomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return   Scaffold(
+    return Scaffold(
       appBar: AppBar(),
-      body: DrawerMenu(),
+      body: const Center(
+        child: Text(
+          'Barber Home',
+          style: TextStyle(
+              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+      ),
+      drawer: DrawerMenu(),
     );
   }
 }

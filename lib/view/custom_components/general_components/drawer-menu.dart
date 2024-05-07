@@ -7,9 +7,7 @@ class DrawerMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      drawer: Drawer(
+    return Drawer(
         backgroundColor: AppColor.PRIMARY,
         child: Column( mainAxisAlignment: MainAxisAlignment.end,
           children: [ 
@@ -23,7 +21,6 @@ class DrawerMenu extends StatelessWidget {
             const SizedBox(height: 100,)
           ],
         ),
-      ),
     );
   }
   Widget _buildDrawerItem({

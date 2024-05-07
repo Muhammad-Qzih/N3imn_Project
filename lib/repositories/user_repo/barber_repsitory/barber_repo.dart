@@ -14,4 +14,7 @@ class BarberRepository implements IBarberRepository {
       barberSalon.toJson(),
     );
   }
+  Future<DocumentSnapshot?> getBarberDocumentByID(String barberId) async {
+    return await _barbersCollection.doc(barberId).get();
+  }
 }
