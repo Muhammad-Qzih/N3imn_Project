@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:n3imn_project_team/themes/colors_theme.dart';
-import 'package:n3imn_project_team/utils/Dialogs/dialgos.dart';
+import 'package:n3imn_project_team/utils/validations/auth_validator.dart';
 import 'package:n3imn_project_team/view/custom_components/general_components/custom_auth_button.dart';
 import 'package:n3imn_project_team/view/custom_components/general_components/custom_icon_text_field.dart';
 import 'package:n3imn_project_team/view_model/auth_models/rest_password_view_model.dart';
@@ -22,6 +22,7 @@ class _ResetPasswordState extends State<ResetPassword> {
     return Scaffold(
       backgroundColor: AppColor.PRIMARY,
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: AppColor.TEXT_SECONDARY),
         backgroundColor: AppColor.PRIMARY,
       ),
       body: SingleChildScrollView(
@@ -69,17 +70,14 @@ class _ResetPasswordState extends State<ResetPassword> {
                           icon: const Icon(Icons.email_outlined,
                               color: AppColor.PRIMARY),
                           textEditingController:
-                              restPasswordViewModel.emailController),
+                              restPasswordViewModel.emailController,
+                          validator: AuthValidator.isValidEmail),
                       const SizedBox(height: 30),
                       CsutomAuthButton(
                         buttonText: 'Send',
                         onPressed: () async {
-                          restPasswordViewModel.resetPassowrd(
+                          await restPasswordViewModel.resetPassowrd(
                               formState, context);
-                          Dialogs.showAuthenticationErrorDialog(
-                              context,
-                              "Please check your email.",
-                              "Password Reset Verification");
                         },
                         backgroundColor: AppColor.PRIMARY,
                         textStyle: theme.textTheme.titleMedium
