@@ -1,6 +1,7 @@
 // ignore_for_file: use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:n3imn_project_team/themes/colors_theme.dart';
 import 'package:n3imn_project_team/view_model/auth_models/logout_view_model.dart';
 
@@ -17,6 +18,8 @@ class DrawerMenu extends StatelessWidget {
             title: "Sign Out",
             icon: Icons.exit_to_app,
             onTap: () async {
+              GoogleSignIn googleSignIn = GoogleSignIn();
+              googleSignIn.disconnect();
               await signOutViewModel.signOut(context);
             },
           ),
