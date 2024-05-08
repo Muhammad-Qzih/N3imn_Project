@@ -6,4 +6,5 @@ abstract class IAuth {
   Future<void> signOut();
   Future<AuthCredential?> getGoogleSignInCredentials();
   Future<UserCredential> signInWithCredential(AuthCredential credential);
+  Future<void> resetPassword(String email);
 }

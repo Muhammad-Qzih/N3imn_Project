@@ -47,7 +47,7 @@ class BarberSignUpViewModel extends ChangeNotifier {
           await _barberRepository.addBarber(
               userCredential.user!.uid, barberSalon);
           _status = AuthResultStatus.successful;
-          Navigator.of(context).pushReplacementNamed("barberhomepage");
+          Navigator.of(context).pushReplacementNamed("barberlogin");
         } else {
           _status = AuthResultStatus.undefined;
         }
