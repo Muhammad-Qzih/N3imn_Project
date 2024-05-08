@@ -12,7 +12,7 @@ class CustomerRoutes {
       "customersignup": (context) => const SignUpCustomer(),
       "customerlogin": (context) => const LoginScreen(),
       "customerhomepage": (context) => const CustomerHomeScreen(),
-      "customerresetpassword": (context) => const ResetPassowrd()
+      "customerresetpassword": (context) => const ResetPassword(),
     };
   }
 }
@@ -23,20 +23,21 @@ class BarberRoutes {
       "barbersignup": (context) => const SignUpBarber(),
       "barberlogin": (context) => const LoginScreen(),
       "barberhomepage": (context) => const BarberHomeScreen(),
-      "barberresetpassword": (context) => const ResetPassowrd()
+      "barberresetpassword": (context) => const ResetPassword(),
     };
   }
 }
+
 class Routes {
   static Map<String, WidgetBuilder> getAllRoutes() {
     final Map<String, WidgetBuilder> allRoutes = {};
-    
+
     // Add Customer routes
     allRoutes.addAll(CustomerRoutes.getRoutes());
-    
+
     // Add Barber routes
     allRoutes.addAll(BarberRoutes.getRoutes());
-    
+
     return allRoutes;
   }
 }

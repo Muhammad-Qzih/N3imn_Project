@@ -49,13 +49,13 @@ class _SkeltonState extends State<Skelton> {
                       },
                       child: const Text('HomePage'),
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        // Action for barber button
-                        Navigator.of(context).pushNamed("barberresetpassword");
-                      },
-                      child: const Text('ResetPassword'),
-                    ),
+                    // ElevatedButton(
+                    //   onPressed: () {
+                    //     // Action for barber button
+                    //     Navigator.of(context).pushNamed("barberresetpassword");
+                    //   },
+                    //   child: const Text('ResetPassword'),
+                    // ),
                   ],
                 ),
               ],
@@ -93,14 +93,14 @@ class _SkeltonState extends State<Skelton> {
                       },
                       child: const Text('Customer Home'),
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        // Action for barber button
-                        Navigator.of(context)
-                            .pushNamed("customerresetpassword");
-                      },
-                      child: const Text('ResetPassword'),
-                    ),
+                    // ElevatedButton(
+                    //   onPressed: () {
+                    //     // Action for barber button
+                    //     Navigator.of(context)
+                    //         .pushNamed("customerresetpassword");
+                    //   },
+                    //   child: const Text('ResetPassword'),
+                    // ),
                   ],
                 ),
               ],
