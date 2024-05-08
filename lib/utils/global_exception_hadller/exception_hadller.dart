@@ -19,6 +19,7 @@ class ExceptionHandller {
           context,
           ExceptionGenarator.generateExceptionMessage(status),
           "Authentication Error");
+                print(e);
     } on Exception catch (e) {
       status = ExceptionGenarator.handleException(e);
 
@@ -26,6 +27,7 @@ class ExceptionHandller {
           context,
           ExceptionGenarator.generateExceptionMessage(status),
           "UnExpected Error");
+      print(e);
     }
   }
 }
