@@ -15,6 +15,14 @@ class BarberHomeScreen extends StatefulWidget {
 
 class _BarberHomeScreenState extends State<BarberHomeScreen> {
   int _selectedIndex = 0;
+  String name = "Home Page";
+
+  final List<String> _titleAppBar = <String>[
+    "Home Page",
+    "Reservatons Management ",
+    "Dashbored",
+    "Profile"
+  ];
 
   final List<Widget> _widgetOptions = <Widget>[
     const BarberHome(),
@@ -32,8 +40,28 @@ class _BarberHomeScreenState extends State<BarberHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
-        appBar: AppBar(),
+        appBar: AppBar(
+          iconTheme:
+              const IconThemeData(color: AppColor.TEXT_SECONDARY, size: 30),
+          backgroundColor: AppColor.PRIMARY,
+          title: Center(
+            child: Text(
+              _titleAppBar.elementAt(_selectedIndex),
+              style: const TextStyle(
+                fontSize: 20,
+                color: AppColor.TEXT_SECONDARY,
+                fontWeight: FontWeight.normal,
+              ),
+            ),
+          ),
+          actions: [
+            IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.notifications,
+                ))
+          ],
+        ),
         body: Center(
           child: _widgetOptions.elementAt(_selectedIndex),
         ),
