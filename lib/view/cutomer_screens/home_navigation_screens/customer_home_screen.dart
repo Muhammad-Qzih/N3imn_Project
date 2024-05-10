@@ -15,7 +15,7 @@ class CustomerHomeScreen extends StatefulWidget {
 
 class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
   int _selectedIndex = 0;
-
+  String name = "Home Page";
   final List<Widget> _widgetOptions = <Widget>[
     const HomePage(),
     const CustomerBookingsScreen(),
@@ -23,6 +23,12 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
     const ProfileScreen(),
   ];
 
+  final List<String> _titleAppBar = <String>[
+    "Home Page",
+    "Bookings",
+    "Available Barbershops",
+    "Profile"
+  ];
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -33,18 +39,38 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(),
+        appBar: AppBar(
+          iconTheme:
+              const IconThemeData(color: AppColor.TEXT_SECONDARY, size: 30),
+          backgroundColor: AppColor.PRIMARY,
+          title: Center(
+            child: Text(
+              _titleAppBar.elementAt(_selectedIndex),
+              style: const TextStyle(
+                fontSize: 20,
+                color: AppColor.TEXT_SECONDARY,
+                fontWeight: FontWeight.normal,
+              ),
+            ),
+          ),
+          actions: [
+            IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.notifications,
+                ))
+          ],
+        ),
         body: Center(
           child: _widgetOptions.elementAt(_selectedIndex),
         ),
         drawer: DrawerMenu(),
         bottomNavigationBar: BottomNavigationBar(
           items: <BottomNavigationBarItem>[
-             BottomNavigationBarItem(
-              icon:    _selectedIndex == 0
+            BottomNavigationBarItem(
+              icon: _selectedIndex == 0
                   ? Image.asset('Images/icons8-home-48.png', height: 30)
-                  : Image.asset('Images/icons8-home-48-white.png',
-                      height: 30),
+                  : Image.asset('Images/icons8-home-48-white.png', height: 30),
               label: 'Home',
             ),
             BottomNavigationBarItem(
@@ -54,15 +80,18 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                       height: 30),
               label: 'Bookings',
             ),
-             BottomNavigationBarItem(
-                            icon: _selectedIndex == 2
+            BottomNavigationBarItem(
+              icon: _selectedIndex == 2
                   ? Image.asset('Images/icons8-barber-48.png', height: 30)
                   : Image.asset('Images/icons8-barber-48-white.png',
                       height: 30),
               label: 'Barbershops',
             ),
             const BottomNavigationBarItem(
-              icon: Icon(Icons.person, size: 33,),
+              icon: Icon(
+                Icons.person,
+                size: 33,
+              ),
               label: 'Profile',
             ),
           ],
