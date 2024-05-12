@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:n3imn_project_team/view/barber_screens/auth_screens/signup_barber_screen.dart';
+import 'package:n3imn_project_team/view/barber_screens/home_navigation_screens/barber_edit_info_screen.dart';
+import 'package:n3imn_project_team/view/barber_screens/home_navigation_screens/barber_edit_services.dart';
 import 'package:n3imn_project_team/view/barber_screens/home_navigation_screens/barber_home_screen.dart';
 import 'package:n3imn_project_team/view/cutomer_screens/auth_screens/signup_customer_screen.dart';
 import 'package:n3imn_project_team/view/cutomer_screens/home_navigation_screens/customer_home_screen.dart';
@@ -24,6 +26,8 @@ class BarberRoutes {
       "barberlogin": (context) => const LoginScreen(),
       "barberhomepage": (context) => const BarberHomeScreen(),
       "barberresetpassword": (context) => const ResetPassword(),
+      "barbereditservices": (context) => const BarberEditServicesScreen(),
+      "barbereditinformation": (context) => const BarberEditInfoScreen()
     };
   }
 }
