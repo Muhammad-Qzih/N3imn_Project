@@ -15,7 +15,10 @@ void main() async {
               apiKey: "AIzaSyDgpylFPQVrObJTnQfEVvZhYflmm6F6hAw",
               appId: "1:1006559214963:android:b08141c610d1b49a5f5906",
               messagingSenderId: "131339357139",
-              projectId: "na3imn-project"))
+              projectId: "na3imn-project",
+              storageBucket: 'na3imn-project.appspot.com'
+              
+              ))
       : Firebase.initializeApp();
   setupDependncyInjection();
   runApp(const MyApp());
