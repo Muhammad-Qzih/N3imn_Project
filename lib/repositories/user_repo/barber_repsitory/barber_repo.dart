@@ -17,4 +17,12 @@ class BarberRepository implements IBarberRepository {
   Future<DocumentSnapshot?> getBarberDocumentByID(String barberId) async {
     return await _barbersCollection.doc(barberId).get();
   }
+  Future<List<BarberSalon>> getBarbers() async {
+    QuerySnapshot users = await _barbersCollection.get();
+    List<BarberSalon> usersList = [];
+    for (var user in users.docs) {
+      usersList.add(BarberSalon.fromFirestore(user));
+    }
+    return usersList;
+  }
 }

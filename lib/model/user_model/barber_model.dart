@@ -1,13 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class BarberSalon {
+  String? id;
   String shopName;
   String email;
   String phoneNumber;
-  String passwrod;
+  String? passwrod;
   String location;
   int userType;
 
   BarberSalon(
-      {required this.passwrod,
+      { this.id,
+        this.passwrod,
       required this.email,
       required this.phoneNumber,
       required this.shopName,
@@ -32,5 +36,16 @@ class BarberSalon {
       'location': location,
       "userType": userType
     };
+  }
+
+  factory BarberSalon.fromFirestore(DocumentSnapshot doc) {
+    return BarberSalon(
+      id: doc.id,
+      shopName: doc['shopName'],
+      email: doc['email'],
+      location: doc['location'],
+      phoneNumber: doc['phoneNumber'],
+      userType: doc["userType"],
+    );
   }
 }
