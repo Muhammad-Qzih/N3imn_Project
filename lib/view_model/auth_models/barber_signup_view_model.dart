@@ -39,7 +39,7 @@ class BarberSignUpViewModel extends ChangeNotifier {
         );
 
         UserCredential userCredential = await _barberAuthService.signUp(
-            barberSalon.email, barberSalon.passwrod);
+            barberSalon.email, barberSalon.passwrod!);
 
         final user = userCredential.user;
 
