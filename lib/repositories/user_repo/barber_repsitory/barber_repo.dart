@@ -25,4 +25,18 @@ class BarberRepository implements IBarberRepository {
     }
     return usersList;
   }
+    Future<void> updateBarberProfileById(String user, String shopNameController,
+      String emailController, String phoneController,String locationController) async {
+    await _barbersCollection.doc(user).update({
+      'shopName': shopNameController,
+      'email': emailController,
+      'phoneNumber': phoneController,
+      'location': locationController,
+    });
+  }
+    Future<BarberSalon?> fetchBarberProfile(String barberSalonId) async {
+    DocumentSnapshot<Object?> user =
+        await _barbersCollection.doc(barberSalonId).get();
+    return BarberSalon.fromJson(user.data() as Map<String, dynamic>);
+  }
 }

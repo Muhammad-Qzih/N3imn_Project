@@ -3,6 +3,7 @@ import 'package:n3imn_project_team/themes/colors_theme.dart';
 import 'package:n3imn_project_team/utils/validations/auth_validator.dart';
 import 'package:n3imn_project_team/view/custom_components/general_components/custom_auth_button.dart';
 import 'package:n3imn_project_team/view/custom_components/general_components/custom_edit_text_field.dart';
+import 'package:n3imn_project_team/view_model/barber_edit_info_view_model.dart';
 
 class BarberEditInfoScreen extends StatefulWidget {
   const BarberEditInfoScreen({super.key});
@@ -12,10 +13,28 @@ class BarberEditInfoScreen extends StatefulWidget {
 }
 
 class _BarberEditInfoScreenState extends State<BarberEditInfoScreen> {
-  final TextEditingController text = TextEditingController();
+    final BarberSalonEditInfoViewModel barberEditInfoViewModel =
+       BarberSalonEditInfoViewModel();
+  GlobalKey<FormState> formState = GlobalKey<FormState>();
+
+  getData() async {
+    final barberSalon = await barberEditInfoViewModel.loadBarberData();
+    barberEditInfoViewModel.shopNameController.text = barberSalon!.shopName;
+    barberEditInfoViewModel.emailController.text = barberSalon.email;
+    barberEditInfoViewModel.phoneController.text = barberSalon.phoneNumber;
+    barberEditInfoViewModel.locationController.text = barberSalon.location;
+
+  }
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+  
         appBar: AppBar(
           iconTheme:
               const IconThemeData(color: AppColor.TEXT_SECONDARY, size: 30),
@@ -39,11 +58,12 @@ class _BarberEditInfoScreenState extends State<BarberEditInfoScreen> {
                   height: 100,
                 ),
                 Form(
+                  key: formState,
                     child: Column(children: [
                   CustomEditTextField(
                     labelName: "Salon name",
                     validator: AuthValidator.validSalonName,
-                    textEditingController: text,
+                    textEditingController: barberEditInfoViewModel.shopNameController,
                     obsecureText: false,
                     icon: Icons.person_outline,
                   ),
@@ -53,7 +73,7 @@ class _BarberEditInfoScreenState extends State<BarberEditInfoScreen> {
                   CustomEditTextField(
                     labelName: "E-Mail",
                     validator: AuthValidator.validSalonName,
-                    textEditingController: text,
+                    textEditingController: barberEditInfoViewModel.emailController,
                     obsecureText: false,
                     icon: Icons.email_outlined,
                   ),
@@ -63,7 +83,7 @@ class _BarberEditInfoScreenState extends State<BarberEditInfoScreen> {
                   CustomEditTextField(
                     labelName: "Location",
                     validator: AuthValidator.validSalonName,
-                    textEditingController: text,
+                    textEditingController: barberEditInfoViewModel.locationController,
                     obsecureText: false,
                     icon: Icons.location_on_outlined,
                   ),
@@ -71,21 +91,24 @@ class _BarberEditInfoScreenState extends State<BarberEditInfoScreen> {
                     height: 20,
                   ),
                   CustomEditTextField(
-                    labelName: "Location",
+                    labelName: "Phone number",
                     validator: AuthValidator.validSalonName,
-                    textEditingController: text,
+                    textEditingController: barberEditInfoViewModel.phoneController,
                     obsecureText: false,
                     icon: Icons.phone_outlined,
                   ),
                   const SizedBox(
                     height: 40,
                   ),
-                  const CsutomAuthButton(
+                   CsutomAuthButton(
                     buttonText: 'Update Informaition',
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       color: AppColor.TEXT_SECONDARY,
                       fontSize: 20,
                     ),
+                    onPressed: (){
+                      barberEditInfoViewModel.updateBarberProfile(context, formState);
+                    },
                   )
                 ])),
               ],
