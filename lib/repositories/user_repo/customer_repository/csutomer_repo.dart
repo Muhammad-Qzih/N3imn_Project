@@ -25,4 +25,19 @@ class CustomerRepository implements ICustomerRepository {
 
     return querySnapshot.docs.isNotEmpty;
   }
+
+  Future<void> updateCustomerProfileById(String user, String nameController,
+      String emailController, String phoneController) async {
+    await _customerCollection.doc(user).update({
+      'username': nameController,
+      'email': emailController,
+      'phoneNumber': phoneController,
+    });
+  }
+
+  Future<Customer?> fetchCustomerProfile(String customerId) async {
+    DocumentSnapshot<Object?> user =
+        await _customerCollection.doc(customerId).get();
+    return Customer.fromJson(user.data() as Map<String, dynamic>);
+  }
 }

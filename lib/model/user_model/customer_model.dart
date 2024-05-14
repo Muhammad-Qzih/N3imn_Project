@@ -1,13 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Customer {
+  String? id;
   String username;
   String email;
-  String password;
+  String? password;
   String phoneNumber;
   int userType;
   Customer(
       {required this.username,
+      this.id,
       required this.email,
-      required this.password,
+       this.password,
       required this.phoneNumber,
       required this.userType});
 
@@ -28,5 +32,14 @@ class Customer {
       'phoneNumber': phoneNumber,
       "userType": userType
     };
+  }
+    factory Customer.fromFirestore(DocumentSnapshot doc) {
+    return Customer(
+      id: doc.id,
+      username: doc['username'],
+      email: doc['email'],
+      phoneNumber: doc['phoneNumber'],
+      userType: doc["userType"],
+    );
   }
 }

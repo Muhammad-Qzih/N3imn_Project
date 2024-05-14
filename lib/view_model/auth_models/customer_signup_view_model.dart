@@ -39,7 +39,7 @@ class CustomerSignUpViewModle extends ChangeNotifier {
             password: passwordController.text);
 
         UserCredential userCredential = await _customerAuthService.signUp(
-            customer.email, customer.password);
+            customer.email, customer.password!);
 
         final user = userCredential.user;
 
