@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:n3imn_project_team/themes/colors_theme.dart';
-import 'package:n3imn_project_team/themes/texts_theme.dart';
 
 class CustomEditTextField extends StatelessWidget {
   final String labelName;
