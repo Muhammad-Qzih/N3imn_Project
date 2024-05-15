@@ -104,54 +104,56 @@ class _ProfileScreenState extends State<ProfileScreen> {
               const SizedBox(
                 height: 10,
               ),
-              Stack(children: [
-                Container(
-                  width: 130,
-                  height: 130,
-                  decoration: BoxDecoration(
-                    border:
-                        Border.all(width: 4, color: AppColor.TEXT_SECONDARY),
-                    boxShadow: [
-                      BoxShadow(
-                          spreadRadius: 2,
-                          blurRadius: 10,
-                          color: AppColor.TEXT_PRIMARY.withOpacity(0.1)),
-                    ],
-                    shape: BoxShape.circle,
+              Container(
+                child: Stack(children: [
+                  Container(
+                    width: 130,
+                    height: 130,
+                    decoration: BoxDecoration(
+                      border:
+                          Border.all(width: 4, color: AppColor.TEXT_SECONDARY),
+                      boxShadow: [
+                        BoxShadow(
+                            spreadRadius: 2,
+                            blurRadius: 10,
+                            color: AppColor.TEXT_PRIMARY.withOpacity(0.1)),
+                      ],
+                      shape: BoxShape.circle,
+                    ),
+                    child: imageUrl != null && imageUrl!.isNotEmpty
+                        ? ClipOval(
+                            child: Image.network(
+                              imageUrl!,
+                              width: 130,
+                              height: 130,
+                              fit: BoxFit.cover,
+                            ),
+                          )
+                        : const Placeholder(), // Replace Placeholder with this condition
                   ),
-                  child: imageUrl != null && imageUrl!.isNotEmpty
-                      ? ClipOval(
-                          child: Image.network(
-                            imageUrl!,
-                            width: 130,
-                            height: 130,
-                            fit: BoxFit.cover,
+                  Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: InkWell(
+                        onTap: () async {
+                          await getImage();
+                        },
+                        child: Container(
+                          height: 40,
+                          width: 40,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                  width: 4, color: AppColor.TEXT_SECONDARY),
+                              color: AppColor.PRIMARY),
+                          child: const Icon(
+                            Icons.edit,
+                            color: AppColor.TEXT_SECONDARY,
                           ),
-                        )
-                      : const Placeholder(), // Replace Placeholder with this condition
-                ),
-                Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: InkWell(
-                      onTap: () async {
-                        await getImage();
-                      },
-                      child: Container(
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                                width: 4, color: AppColor.TEXT_SECONDARY),
-                            color: AppColor.PRIMARY),
-                        child: const Icon(
-                          Icons.edit,
-                          color: AppColor.TEXT_SECONDARY,
                         ),
-                      ),
-                    ))
-              ]),
+                      ))
+                ]),
+              ),
               const SizedBox(
                 height: 10,
               ),
@@ -163,7 +165,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     color: AppColor.TEXT_PRIMARY),
               ),
               const Text(
-                "mtn123345@gmail.com",
+                "mtnn@gmail.com",
                 style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,

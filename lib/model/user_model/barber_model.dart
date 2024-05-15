@@ -10,6 +10,7 @@ class BarberSalon {
   int userType;
   int rating;
   int? status;
+  String? pictureUrl;
   BarberSalon(
       {this.id,
       this.passwrod,
@@ -19,7 +20,8 @@ class BarberSalon {
       required this.location,
       required this.userType,
       required this.rating,
-      this.status
+      this.status,
+       this.pictureUrl
       });
 
   factory BarberSalon.fromJson(Map<String, dynamic> json) {
@@ -43,7 +45,7 @@ class BarberSalon {
       'location': location,
       "userType": userType,
       "rating": rating,
-      "status":status  
+      "status": status
     };
   }
 
@@ -56,7 +58,6 @@ class BarberSalon {
         phoneNumber: doc['phoneNumber'],
         userType: doc["userType"],
         rating: doc["rating"],
-        status: doc["status"]
-        );
+        status: doc["status"]);
   }
 }

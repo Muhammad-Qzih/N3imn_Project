@@ -4,6 +4,8 @@ import 'package:n3imn_project_team/view/barber_screens/home_navigation_screens/b
 import 'package:n3imn_project_team/view/barber_screens/home_navigation_screens/barber_edit_services.dart';
 import 'package:n3imn_project_team/view/barber_screens/home_navigation_screens/barber_home_screen.dart';
 import 'package:n3imn_project_team/view/cutomer_screens/auth_screens/signup_customer_screen.dart';
+import 'package:n3imn_project_team/view/cutomer_screens/bookings_screens/make_booking_screen.dart';
+import 'package:n3imn_project_team/view/cutomer_screens/home_navigation_screens/barber_salon_page_information.dart';
 import 'package:n3imn_project_team/view/cutomer_screens/home_navigation_screens/customer_edit_info_screen.dart';
 import 'package:n3imn_project_team/view/cutomer_screens/home_navigation_screens/customer_home_screen.dart';
 import 'package:n3imn_project_team/view/general_screens/login_screen.dart';
@@ -17,6 +19,8 @@ class CustomerRoutes {
       "customerhomepage": (context) => const CustomerHomeScreen(),
       "customerresetpassword": (context) => const ResetPassword(),
       "customereditinformation": (context) => const CustomerEditInfoScreen(),
+      "barberinformation": (context) => const BarberSalonBageInformation(),
+      "cutomerbooking":(context) => const MakeBookingScreen(),
     };
   }
 }
