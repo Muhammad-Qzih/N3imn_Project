@@ -84,8 +84,23 @@ class BarberRepository implements IBarberRepository {
     BarberSalon? barberSalon =
         BarberSalon.fromJson(user.data() as Map<String, dynamic>);
 
-    barberSalon.pictureUrl =  await getProfilePictureURL(barberSalonId);
-    
+    barberSalon.pictureUrl = await getProfilePictureURL(barberSalonId);
+
     return barberSalon;
+  }
+
+  Future<List<BarberSalon>> getTopBarbers() async {
+    QuerySnapshot users =
+        await _barbersCollection.where('rating', isEqualTo: 5).get();
+    List<BarberSalon> usersList = [];
+
+    for (var user in users.docs) {
+      BarberSalon barber = BarberSalon.fromFirestore(user);
+      String? pictureURL = await getProfilePictureURL(barber.id);
+      barber.pictureUrl = pictureURL;
+      usersList.add(barber);
+    }
+
+    return usersList;
   }
 }
