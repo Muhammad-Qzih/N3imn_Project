@@ -1,4 +1,11 @@
+import 'dart:io';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:n3imn_project_team/model/user_model/barber_model.dart';
+import 'package:n3imn_project_team/repositories/user_repo/barber_repsitory/barber_repo.dart';
 import 'package:n3imn_project_team/themes/colors_theme.dart';
 import 'package:n3imn_project_team/view/custom_components/general_components/section_profile_component.dart';
 
@@ -10,6 +17,90 @@ class BarberProfile extends StatefulWidget {
 }
 
 class _BarberProfileState extends State<BarberProfile> {
+  final BarberRepository barberRepository = BarberRepository();
+  String? imageUrl;
+  File? file;
+  bool isLoading = true;
+  BarberSalon? barber;
+
+  Future<String?> uploadSingleImage() async {
+    String fileName = '${FirebaseAuth.instance.currentUser!.uid}.jpg';
+
+    Reference reference =
+        FirebaseStorage.instance.ref().child('profilePictures').child(fileName);
+
+    UploadTask uploadTask = reference.putFile(file!);
+
+    await uploadTask.whenComplete(() async {
+      imageUrl = await uploadTask.snapshot.ref.getDownloadURL();
+    });
+
+    return imageUrl;
+  }
+
+  getImage() async {
+    final ImagePicker imagePicker = ImagePicker();
+    final XFile? xFile =
+        await imagePicker.pickImage(source: ImageSource.camera);
+
+    if (xFile != null) {
+      setState(() {
+        file = File(xFile.path);
+      });
+
+      await uploadSingleImage();
+    }
+    isLoading = false;
+    setState(() {});
+  }
+
+  Future<void> fetchProfilePicture() async {
+    try {
+      String userId = FirebaseAuth.instance.currentUser!.uid;
+
+      Reference reference =
+          FirebaseStorage.instance.ref().child('profilePictures/$userId.jpg');
+
+      bool pictureExists = await reference
+          .getDownloadURL()
+          .then((_) => true)
+          .catchError((_) => false);
+
+      if (pictureExists) {
+        String downloadUrl = await reference.getDownloadURL();
+        isLoading = false;
+        setState(() {
+          imageUrl = downloadUrl;
+        });
+      } else {
+        print('Profile picture does not exist.');
+
+        setState(() {
+          imageUrl = '';
+        });
+      }
+    } catch (e) {
+      print('Error fetching profile picture: $e');
+      setState(() {
+        imageUrl = '';
+      });
+    }
+  }
+
+  fetchDataBarber() async {
+    barber = await barberRepository
+        .fetchBarberProfile(FirebaseAuth.instance.currentUser!.uid);
+    isLoading = false;
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    fetchProfilePicture();
+    fetchDataBarber();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,50 +113,73 @@ class _BarberProfileState extends State<BarberProfile> {
               const SizedBox(
                 height: 10,
               ),
-              SizedBox(
-                width: 120,
-                height: 120,
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    
-                    // child: const Image(
-                    //     image: AssetImage(
-                    //         ""))
-                    ),
-              ),
+              Stack(children: [
+                Container(
+                  width: 130,
+                  height: 130,
+                  decoration: BoxDecoration(
+                    border:
+                        Border.all(width: 4, color: AppColor.TEXT_SECONDARY),
+                    boxShadow: [
+                      BoxShadow(
+                          spreadRadius: 2,
+                          blurRadius: 10,
+                          color: AppColor.TEXT_PRIMARY.withOpacity(0.1)),
+                    ],
+                    shape: BoxShape.circle,
+                  ),
+                  child: imageUrl != null && imageUrl!.isNotEmpty
+                      ? ClipOval(
+                          child: Image.network(
+                            imageUrl!,
+                            width: 130,
+                            height: 130,
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      : const Placeholder(), // Replace Placeholder with this condition
+                ),
+                Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: InkWell(
+                      onTap: () async {
+                        await getImage();
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                                width: 4, color: AppColor.TEXT_SECONDARY),
+                            color: AppColor.PRIMARY),
+                        child: const Icon(
+                          Icons.edit,
+                          color: AppColor.TEXT_SECONDARY,
+                        ),
+                      ),
+                    ))
+              ]),
               const SizedBox(
                 height: 10,
               ),
-              const Text(
-                "Muhamamd Qzih",
-                style: TextStyle(
+              Text(
+                "${barber?.shopName}",
+                style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: AppColor.TEXT_PRIMARY),
               ),
-              const Text(
-                "muhammaghqzih@gmail.com",
-                style: TextStyle(
+              Text(
+                "${barber?.email}",
+                style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
                     color: AppColor.TEXT_SECONDARY_LIGHT),
               ),
               const SizedBox(
                 height: 20,
-              ),
-              SizedBox(
-                width: 200,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColor.PRIMARY,
-                      side: BorderSide.none,
-                      shape: const StadiumBorder()),
-                  child: const Text("Edit Picture",
-                      style: TextStyle(
-                          color: AppColor.TEXT_SECONDARY,
-                          fontWeight: FontWeight.bold)),
-                ),
               ),
               const SizedBox(
                 height: 20,
