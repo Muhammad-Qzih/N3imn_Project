@@ -32,7 +32,7 @@ class BarberRoutes {
       "barberlogin": (context) => const LoginScreen(),
       "barberhomepage": (context) => const BarberHomeScreen(),
       "barberresetpassword": (context) => const ResetPassword(),
-      "barbereditservices": (context) => const BarberEditServicesScreen(),
+      "barbereditservices": (context) => const BarberEditServiceScreen(),
       "barbereditinformation": (context) => const BarberEditInfoScreen()
     };
   }
