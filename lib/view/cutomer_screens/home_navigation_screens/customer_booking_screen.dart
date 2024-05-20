@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:n3imn_project_team/themes/colors_theme.dart';
+import 'package:n3imn_project_team/view/custom_components/general_components/appointement_upcomming_card.dart';
+import 'package:n3imn_project_team/view/custom_components/general_components/appointment_completed_card.dart';
 
 class CustomerBookingsScreen extends StatefulWidget {
   const CustomerBookingsScreen({super.key});
@@ -8,7 +10,8 @@ class CustomerBookingsScreen extends StatefulWidget {
   State<CustomerBookingsScreen> createState() => _CustomerBookingsScreenState();
 }
 
-class _CustomerBookingsScreenState extends State<CustomerBookingsScreen> with SingleTickerProviderStateMixin {
+class _CustomerBookingsScreenState extends State<CustomerBookingsScreen>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -31,55 +34,85 @@ class _CustomerBookingsScreenState extends State<CustomerBookingsScreen> with Si
           ],
           indicator: const UnderlineTabIndicator(
             borderSide: BorderSide(
-              color: AppColor.PRIMARY, 
-              width: 2.0, 
+              color: AppColor.PRIMARY,
+              width: 2.0,
             ),
-            insets: EdgeInsets.symmetric(horizontal: 90), 
+            insets: EdgeInsets.symmetric(horizontal: 90),
           ),
           labelStyle: const TextStyle(
-            fontSize: 16.0, 
-            fontWeight: FontWeight.bold, 
+            fontSize: 16.0,
+            fontWeight: FontWeight.bold,
           ),
           unselectedLabelStyle: const TextStyle(
-            fontSize: 15, 
-            fontWeight: FontWeight.normal, 
+            fontSize: 15,
+            fontWeight: FontWeight.normal,
           ),
           labelColor: AppColor.TEXT_PRIMARY,
-          unselectedLabelColor: Colors.grey, 
+          unselectedLabelColor: Colors.grey,
         ),
       ),
       body: TabBarView(
         controller: _tabController,
         children: const [
-          UpcomingTasks(),
-          CompletedTasks(),
-          CancelledTasks(),
+          UpcomingSection(),
+          CompletedSection(),
+          CancelledSection(),
         ],
       ),
     );
   }
 }
 
-class UpcomingTasks extends StatelessWidget {
-  const UpcomingTasks({super.key});
+class UpcomingSection extends StatelessWidget {
+  const UpcomingSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text("Upcoming Tasks"));
+    return const Padding(
+      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 1),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            UpCommeingAppointmentCard(),
+            SizedBox(height: 10),
+            UpCommeingAppointmentCard(),
+            SizedBox(height: 10),
+            UpCommeingAppointmentCard(),
+            SizedBox(height: 10),
+            UpCommeingAppointmentCard(),
+          ],
+        ),
+      ),
+    );
   }
 }
 
-class CompletedTasks extends StatelessWidget {
-  const CompletedTasks({super.key});
+class CompletedSection extends StatelessWidget {
+  const CompletedSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text("Completed Tasks"));
+    return const Padding(
+      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 1),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            CompletedAppointmentCard(),
+            SizedBox(height: 10),
+            CompletedAppointmentCard(),
+            SizedBox(height: 10),
+            CompletedAppointmentCard(),
+            SizedBox(height: 10),
+            CompletedAppointmentCard(),
+          ],
+        ),
+      ),
+    );
   }
 }
 
-class CancelledTasks extends StatelessWidget {
-  const CancelledTasks({super.key});
+class CancelledSection extends StatelessWidget {
+  const CancelledSection({super.key});
 
   @override
   Widget build(BuildContext context) {
