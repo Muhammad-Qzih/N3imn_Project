@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:n3imn_project_team/model/bookings_model.dart/booking_model.dart';
 import 'package:n3imn_project_team/repositories/user_repo/booking_repo/booking_repo.dart';
 import 'package:n3imn_project_team/themes/colors_theme.dart';
-import 'package:n3imn_project_team/view/custom_components/general_components/appointement_upcomming_card.dart';
-import 'package:n3imn_project_team/view/custom_components/general_components/appointment_completed_card.dart';
+import 'package:n3imn_project_team/view/custom_components/general_components/booking_card.dart';
 
 class CustomerBookingsScreen extends StatefulWidget {
   const CustomerBookingsScreen({super.key});
@@ -80,8 +79,7 @@ class _UpcomingSectionState extends State<UpcomingSection> {
 
   getData() async {
     _listBookings = await _bookingRepo
-        .getBookingsByCustomerId(FirebaseAuth.instance.currentUser!.uid);
-    print(FirebaseAuth.instance.currentUser!.uid);
+        .getUpcomingBookingsByCustomerId(FirebaseAuth.instance.currentUser!.uid);
     setState(() {});
   }
 
@@ -91,7 +89,7 @@ class _UpcomingSectionState extends State<UpcomingSection> {
     super.initState();
   }
 
- @override
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 1),
@@ -100,7 +98,7 @@ class _UpcomingSectionState extends State<UpcomingSection> {
           children: [
             GridView.builder(
               shrinkWrap: true,
-              physics: const ClampingScrollPhysics(), // Enable scrolling for GridView
+              physics:  const ClampingScrollPhysics(), // Enable scrolling for GridView
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 1, // Number of columns
                 crossAxisSpacing: 10, // Horizontal spacing between cards
@@ -109,7 +107,62 @@ class _UpcomingSectionState extends State<UpcomingSection> {
               itemCount: _listBookings.length,
               itemBuilder: (context, index) {
                 final booking = _listBookings[index];
-                return UpCommeingAppointmentCard(booking: booking);
+                return BookingCard(booking: booking);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class CompletedSection extends StatefulWidget {
+  const CompletedSection({super.key});
+
+  @override
+  State<CompletedSection> createState() => _CompletedSectionState();
+}
+
+class _CompletedSectionState extends State<CompletedSection> {
+  final _bookingRepo = BookingRepository();
+
+  List<Booking> _listCompletedBookings = [];
+
+  getData() async {
+    _listCompletedBookings =
+        await _bookingRepo.getCompletedBookingsByCustomerId(
+            FirebaseAuth.instance.currentUser!.uid);
+    print(_listCompletedBookings.length);
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 1),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            GridView.builder(
+              shrinkWrap: true,
+              physics:
+                  const ClampingScrollPhysics(), // Enable scrolling for GridView
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 1, // Number of columns
+                crossAxisSpacing: 10, // Horizontal spacing between cards
+                childAspectRatio: 1.6, // Aspect ratio of each card
+              ),
+              itemCount: _listCompletedBookings.length,
+              itemBuilder: (context, index) {
+                final booking = _listCompletedBookings[index];
+                return BookingCard(booking: booking);
               },
             ),
           ],
@@ -120,35 +173,55 @@ class _UpcomingSectionState extends State<UpcomingSection> {
 }
 
 
-class CompletedSection extends StatelessWidget {
-  const CompletedSection({super.key});
+class CancelledSection extends StatefulWidget {
+  const CancelledSection({super.key});
+  @override
+  State<CancelledSection> createState() => _CancelledSection();
+}
+
+class _CancelledSection extends State<CancelledSection> {
+  final _bookingRepo = BookingRepository();
+  List<Booking> _listCancelledBookings = [];
+
+  getData() async {
+    _listCancelledBookings =
+        await _bookingRepo.getCancelledBookingsByCustomerId(
+            FirebaseAuth.instance.currentUser!.uid);
+    print(_listCancelledBookings.length);
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 1),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 1),
       child: SingleChildScrollView(
         child: Column(
           children: [
-            CompletedAppointmentCard(),
-            SizedBox(height: 10),
-            CompletedAppointmentCard(),
-            SizedBox(height: 10),
-            CompletedAppointmentCard(),
-            SizedBox(height: 10),
-            CompletedAppointmentCard(),
+            GridView.builder(
+              shrinkWrap: true,
+              physics:
+                  const ClampingScrollPhysics(), // Enable scrolling for GridView
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 1, // Number of columns
+                crossAxisSpacing: 10, // Horizontal spacing between cards
+                childAspectRatio: 1.6, // Aspect ratio of each card
+              ),
+              itemCount: _listCancelledBookings.length,
+              itemBuilder: (context, index) {
+                final booking = _listCancelledBookings[index];
+                return BookingCard(booking: booking);
+              },
+            ),
           ],
         ),
       ),
     );
-  }
-}
-
-class CancelledSection extends StatelessWidget {
-  const CancelledSection({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(child: Text("Cancelled Tasks"));
   }
 }
