@@ -1,12 +1,15 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:n3imn_project_team/model/bookings_model.dart/booking_model.dart';
 import 'package:n3imn_project_team/themes/colors_theme.dart';
+import 'package:n3imn_project_team/utils/helper/date_fortmater.dart/date_formatter.dart';
 
 class UpCommeingAppointmentCard extends StatefulWidget {
-  const UpCommeingAppointmentCard({super.key});
+  final Booking booking;
+  const UpCommeingAppointmentCard({super.key, required this.booking});
 
   @override
-  State<UpCommeingAppointmentCard> createState() => _UpCommeingAppointmentCardState();
+  State<UpCommeingAppointmentCard> createState() =>
+      _UpCommeingAppointmentCardState();
 }
 
 class _UpCommeingAppointmentCardState extends State<UpCommeingAppointmentCard> {
@@ -41,9 +44,10 @@ class _UpCommeingAppointmentCardState extends State<UpCommeingAppointmentCard> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      'Feb 23,2024  5:30 PM',
-                      style: TextStyle(
+                    Text(
+                      DateFormatter.timestampToString(
+                          widget.booking.startBookingTime),
+                      style: const TextStyle(
                         color: AppColor.TEXT_PRIMARY,
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -59,17 +63,12 @@ class _UpCommeingAppointmentCardState extends State<UpCommeingAppointmentCard> {
                             fontSize: 16,
                           ),
                         ),
-                      
-                          Switch(
-                            value: true, // This should be a state variable
-                            onChanged: (bool newValue) {
-                              // Handle switch state change
-                            },
-                            
-                            activeTrackColor: AppColor.PRIMARY,
-                            activeColor: AppColor.TEXT_SECONDARY,
-                          ),
-                      
+                        Switch(
+                          value: true,
+                          onChanged: (bool newValue) {},
+                          activeTrackColor: AppColor.PRIMARY,
+                          activeColor: AppColor.TEXT_SECONDARY,
+                        ),
                       ],
                     ),
                   ],
@@ -78,9 +77,9 @@ class _UpCommeingAppointmentCardState extends State<UpCommeingAppointmentCard> {
               const Divider(
                 color: AppColor.PRIMARY,
               ),
-              const Text(
-                'Tayel Salon',
-                style: TextStyle(
+               Text(
+                  widget.booking.barberSalonName,
+                style: const TextStyle(
                   color: AppColor.TEXT_PRIMARY,
                   fontSize: 19,
                   fontWeight: FontWeight.bold,
@@ -88,16 +87,16 @@ class _UpCommeingAppointmentCardState extends State<UpCommeingAppointmentCard> {
               ),
               const SizedBox(height: 2),
               RichText(
-                text: const TextSpan(
+                text: TextSpan(
                   text: 'Services: ',
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: AppColor.TEXT_PRIMARY,
                     fontSize: 17,
                   ),
                   children: [
                     TextSpan(
-                      text: 'Haircut | Hair style',
-                      style: TextStyle(
+                      text: widget.booking.services.join(' | '),
+                      style: const TextStyle(
                         color: AppColor.TEXT_SECONDARY_LIGHT,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -107,9 +106,10 @@ class _UpCommeingAppointmentCardState extends State<UpCommeingAppointmentCard> {
                 ),
               ),
               const SizedBox(height: 2),
-              const Text(
-                'Time Required: 1:30 h',
-                style: TextStyle(
+              Text(
+                "Time Required: ${DateFormatter.calculateHourDifference(DateFormatter.timestampToString(widget.booking.startBookingTime),
+                 DateFormatter.timestampToString(widget.booking.endBookingTime))}",
+                style: const TextStyle(
                   color: AppColor.TEXT_PRIMARY,
                   fontSize: 16,
                 ),
@@ -118,17 +118,17 @@ class _UpCommeingAppointmentCardState extends State<UpCommeingAppointmentCard> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Row(
+                   Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.location_on_outlined,
                         size: 25,
                         color: AppColor.PRIMARY,
                       ),
-                      SizedBox(width: 2),
+                      const SizedBox(width: 2),
                       Text(
-                        'Nablus',
-                        style: TextStyle(
+                        widget.booking.location,
+                        style: const TextStyle(
                           color: AppColor.TEXT_PRIMARY,
                           fontSize: 14,
                         ),

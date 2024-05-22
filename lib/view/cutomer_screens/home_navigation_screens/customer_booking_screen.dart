@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:n3imn_project_team/model/bookings_model.dart/booking_model.dart';
+import 'package:n3imn_project_team/repositories/user_repo/booking_repo/booking_repo.dart';
 import 'package:n3imn_project_team/themes/colors_theme.dart';
 import 'package:n3imn_project_team/view/custom_components/general_components/appointement_upcomming_card.dart';
 import 'package:n3imn_project_team/view/custom_components/general_components/appointment_completed_card.dart';
@@ -63,29 +66,59 @@ class _CustomerBookingsScreenState extends State<CustomerBookingsScreen>
   }
 }
 
-class UpcomingSection extends StatelessWidget {
+class UpcomingSection extends StatefulWidget {
   const UpcomingSection({super.key});
 
   @override
+  State<UpcomingSection> createState() => _UpcomingSectionState();
+}
+
+class _UpcomingSectionState extends State<UpcomingSection> {
+  final _bookingRepo = BookingRepository();
+
+  List<Booking> _listBookings = [];
+
+  getData() async {
+    _listBookings = await _bookingRepo
+        .getBookingsByCustomerId(FirebaseAuth.instance.currentUser!.uid);
+    print(FirebaseAuth.instance.currentUser!.uid);
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
+
+ @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 1),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 1),
       child: SingleChildScrollView(
         child: Column(
           children: [
-            UpCommeingAppointmentCard(),
-            SizedBox(height: 10),
-            UpCommeingAppointmentCard(),
-            SizedBox(height: 10),
-            UpCommeingAppointmentCard(),
-            SizedBox(height: 10),
-            UpCommeingAppointmentCard(),
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const ClampingScrollPhysics(), // Enable scrolling for GridView
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 1, // Number of columns
+                crossAxisSpacing: 10, // Horizontal spacing between cards
+                childAspectRatio: 1.6, // Aspect ratio of each card
+              ),
+              itemCount: _listBookings.length,
+              itemBuilder: (context, index) {
+                final booking = _listBookings[index];
+                return UpCommeingAppointmentCard(booking: booking);
+              },
+            ),
           ],
         ),
       ),
     );
   }
 }
+
 
 class CompletedSection extends StatelessWidget {
   const CompletedSection({super.key});
