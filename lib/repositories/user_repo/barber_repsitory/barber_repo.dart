@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:n3imn_project_team/model/user_model/barber_model.dart';
+import 'package:n3imn_project_team/model/user_model/services_model.dart';
 import 'package:n3imn_project_team/repositories/user_repo/abstract_classes/Ibarber_repo.dart';
 
 class BarberRepository implements IBarberRepository {
@@ -103,4 +104,38 @@ class BarberRepository implements IBarberRepository {
 
     return usersList;
   }
+
+  Future<void> updateServices(String barberId, List<String> services) async {
+    try {
+      final serviceRef =
+          FirebaseFirestore.instance.collection('services').doc(barberId);
+
+      BarberService barberService = BarberService(services: services);
+
+      await serviceRef.set(barberService.toJson());
+
+      print('Barber services updated successfully!');
+    } catch (error) {
+      print('Error updating barber services: $error');
+    }
+  }
+
+  Future<BarberService?> getBarberServices(String barberId) async {
+  try {
+    final DocumentSnapshot doc = await FirebaseFirestore.instance
+        .collection('services')
+        .doc(barberId)
+        .get();
+
+    if (doc.exists) {
+      return BarberService.fromFirestore(doc);
+    } else {
+      print('No such document!');
+      return null;
+    }
+  } catch (error) {
+    print('Error getting barber services: $error');
+    return null;
+  }
+}
 }
