@@ -28,6 +28,7 @@ class _BookingCardState extends State<BookingCard> {
       case 1:
         buttonText = 'Feedback';
         buttonAction = () {
+            Navigator.of(context).pushNamed("feedback");
           // Handle Feedback Action
         };
         break;

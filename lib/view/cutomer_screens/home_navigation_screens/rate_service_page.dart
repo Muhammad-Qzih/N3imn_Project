@@ -89,7 +89,7 @@ class RateServicePage extends StatelessWidget {
                           color: Color.fromARGB(255, 42, 40, 40),
                         ),
                       ),
-                      const SizedBox(height: 😎,
+                      const SizedBox(height: 20),
                         TextField(
                           onChanged: viewModel.setFeedback,
                           maxLines: 4,

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:n3imn_project_team/view/barber_screens/auth_screens/signup_barber_screen.dart';
 import 'package:n3imn_project_team/view/barber_screens/home_navigation_screens/barber_edit_info_screen.dart';
@@ -8,6 +9,7 @@ import 'package:n3imn_project_team/view/cutomer_screens/bookings_screens/make_bo
 import 'package:n3imn_project_team/view/cutomer_screens/home_navigation_screens/barber_salon_page_information.dart';
 import 'package:n3imn_project_team/view/cutomer_screens/home_navigation_screens/customer_edit_info_screen.dart';
 import 'package:n3imn_project_team/view/cutomer_screens/home_navigation_screens/customer_home_screen.dart';
+import 'package:n3imn_project_team/view/cutomer_screens/home_navigation_screens/rate_service_page.dart';
 import 'package:n3imn_project_team/view/general_screens/login_screen.dart';
 import 'package:n3imn_project_team/view/general_screens/reset_password_screen.dart';
 
@@ -21,6 +23,10 @@ class CustomerRoutes {
       "customereditinformation": (context) => const CustomerEditInfoScreen(),
       "barberinformation": (context) => const BarberSalonBageInformation(),
       "cutomerbooking":(context) => const MakeBookingScreen(),
+            "feedback":(context) =>  const RateServicePage(
+    salonId: 'm9oyncwPG0WDbUDcbHRNaWY5cc23',
+    userId: "2MEYRTIGuTbub75pEYh8ISxLSfX2",
+    ),
     };
   }
 }
