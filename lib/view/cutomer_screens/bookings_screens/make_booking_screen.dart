@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:n3imn_project_team/themes/colors_theme.dart';
 import 'package:n3imn_project_team/view/custom_components/general_components/booking_details_card.dart';
-import 'package:n3imn_project_team/view/custom_components/general_components/custom_auth_button.dart';
 
 class MakeBookingScreen extends StatefulWidget {
   const MakeBookingScreen({super.key});
@@ -13,8 +12,205 @@ class MakeBookingScreen extends StatefulWidget {
 class _MakeBookingScreenState extends State<MakeBookingScreen> {
   int _currentStep = 0;
   final Set<String> _selectedServices = {};
+  int _totalTime = 0;
+  String? _selectedTime;
+
+  final List<Map<String, dynamic>> _services = [
+    {'title': 'Haircut', 'time': 30},
+    {'title': 'Hair Style', 'time': 30},
+    {'title': 'Beard Style', 'time': 30},
+  ];
+  
+  final List<Map<String, List<String>>> mergedArray = [
+    {
+      'times': [
+        '08:00 AM - 08:30 AM',
+        '09:00 AM - 09:30 AM',
+        '10:00 AM - 10:30 AM',
+        '03:00 PM - 03:30 PM',
+        '04:00 PM - 04:30 PM',
+      ]
+    },
+    {
+      'times': [
+        '08:00 AM - 08:30 AM',
+        '09:00 AM - 09:30 AM',
+        '10:00 AM - 10:30 AM',
+        '11:00 AM - 11:30 AM',
+        '12:00 PM - 12:30 PM',
+        '01:00 PM - 01:30 PM',
+        '02:00 PM - 02:30 PM',
+        '03:00 PM - 03:30 PM',
+        '04:00 PM - 04:30 PM',
+      ]
+    },
+    {
+      'times': [
+        '08:00 AM - 08:30 AM',
+        '09:00 AM - 09:30 AM',
+        '10:00 AM - 10:30 AM',
+        '11:00 AM - 11:30 AM',
+        '12:00 PM - 12:30 PM',
+        '01:00 PM - 01:30 PM',
+        '02:00 PM - 02:30 PM',
+        '03:00 PM - 03:30 PM',
+        '04:00 PM - 04:30 PM',
+      ]
+    },
+    {
+      'times': [
+        '02:00 PM - 02:30 PM',
+        '03:00 PM - 03:30 PM',
+        '04:00 PM - 04:30 PM',
+      ]
+    },
+    {
+      'times': [
+        '08:00 AM - 08:30 AM',
+        '09:00 AM - 09:30 AM',
+        '10:00 AM - 10:30 AM',
+        '11:00 AM - 11:30 AM',
+        '12:00 PM - 12:30 PM',
+        '01:00 PM - 01:30 PM',
+        '02:00 PM - 02:30 PM',
+        '03:00 PM - 03:30 PM',
+        '04:00 PM - 04:30 PM',
+      ]
+    },
+    {
+      'times': [
+        '08:00 AM - 08:30 AM',
+        '09:00 AM - 09:30 AM',
+        '10:00 AM - 10:30 AM',
+        '11:00 AM - 11:30 AM',
+        '12:00 PM - 12:30 PM',
+        '01:00 PM - 01:30 PM',
+        '02:00 PM - 02:30 PM',
+        '03:00 PM - 03:30 PM',
+        '04:00 PM - 04:30 PM',
+      ]
+    },
+    {
+      'times': [
+        '08:00 AM - 08:30 AM',
+        '09:00 AM - 09:30 AM',
+        '10:00 AM - 10:30 AM',
+        '11:00 AM - 11:30 AM',
+        '12:00 PM - 12:30 PM',
+        '01:00 PM - 01:30 PM',
+        '02:00 PM - 02:30 PM',
+        '03:00 PM - 03:30 PM',
+        '04:00 PM - 04:30 PM',
+      ]
+    },
+    {
+      'times': [
+        '08:00 AM - 08:30 AM',
+        '09:00 AM - 09:30 AM',
+        '10:00 AM - 10:30 AM',
+        '11:00 AM - 11:30 AM',
+        '12:00 PM - 12:30 PM',
+        '01:00 PM - 01:30 PM',
+        '02:00 PM - 02:30 PM',
+        '03:00 PM - 03:30 PM',
+        '04:00 PM - 04:30 PM',
+      ]
+    },
+    {
+      'times': [
+        '02:00 PM - 02:30 PM',
+        '03:00 PM - 03:30 PM',
+        '04:00 PM - 04:30 PM',
+      ]
+    },
+    {
+      'times': [
+        '02:00 PM - 02:30 PM',
+        '03:00 PM - 03:30 PM',
+        '04:00 PM - 04:30 PM',
+      ]
+    },
+    {
+      'times': [
+        '08:00 AM - 08:30 AM',
+        '09:00 AM - 09:30 AM',
+        '10:00 AM - 10:30 AM',
+        '11:00 AM - 11:30 AM',
+        '12:00 PM - 12:30 PM',
+        '01:00 PM - 01:30 PM',
+        '02:00 PM - 02:30 PM',
+        '03:00 PM - 03:30 PM',
+        '04:00 PM - 04:30 PM',
+      ]
+    },
+    {
+      'times': [
+        '02:00 PM - 02:30 PM',
+        '03:00 PM - 03:30 PM',
+        '04:00 PM - 04:30 PM',
+      ]
+    },
+    {
+      'times': [
+        '02:00 PM - 02:30 PM',
+        '03:00 PM - 03:30 PM',
+        '04:00 PM - 04:30 PM',
+      ]
+    },
+    {
+      'times': [
+        '08:00 AM - 08:30 AM',
+        '09:00 AM - 09:30 AM',
+        '10:00 AM - 10:30 AM',
+        '11:00 AM - 11:30 AM',
+        '12:00 PM - 12:30 PM',
+        '01:00 PM - 01:30 PM',
+        '02:00 PM - 02:30 PM',
+        '03:00 PM - 03:30 PM',
+        '04:00 PM - 04:30 PM',
+      ]
+    },
+  ];
+
+  final List<String> daysOfFebruary2024 = [
+    'Feb 1, 2024',
+    'Feb 2, 2024',
+    'Feb 3, 2024',
+    'Feb 4, 2024',
+    'Feb 5, 2024',
+    'Feb 6, 2024',
+    'Feb 7, 2024',
+    'Feb 8, 2024',
+    'Feb 9, 2024',
+    'Feb 10, 2024',
+    'Feb 11, 2024',
+    'Feb 12, 2024',
+    'Feb 13, 2024',
+    'Feb 14, 2024',
+  ];
+
+  int currentIndex = 0;
+
+  void previousDate() {
+    if (currentIndex > 0) {
+      setState(() {
+        currentIndex--;
+      });
+    }
+  }
+
+  void nextDate() {
+    if (currentIndex < daysOfFebruary2024.length - 1) {
+      setState(() {
+        currentIndex++;
+      });
+    }
+  }
 
   void _nextStep() {
+    if (_currentStep == 0 && _selectedServices.isEmpty) {
+      return;
+    }
     if (_currentStep < 2) {
       setState(() {
         _currentStep += 1;
@@ -30,6 +226,24 @@ class _MakeBookingScreenState extends State<MakeBookingScreen> {
     }
   }
 
+  void _toggleServiceSelection(String service, int time) {
+    setState(() {
+      if (_selectedServices.contains(service)) {
+        _selectedServices.remove(service);
+        _totalTime -= time;
+      } else {
+        _selectedServices.add(service);
+        _totalTime += time;
+      }
+    });
+  }
+
+  void _selectTime(String time) {
+    setState(() {
+      _selectedTime = time;
+    });
+  }
+
   Widget _buildStepper() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -43,6 +257,48 @@ class _MakeBookingScreenState extends State<MakeBookingScreen> {
       }),
     );
   }
+
+  Widget _buildStep(int step) {
+    bool isActive = step == _currentStep;
+    bool isCompleted = step < _currentStep;
+
+    return Column(
+      children: [
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: isActive ? AppColor.PRIMARY : AppColor.PRIMARY_LIGHT,
+              width: isActive ? 4.0 : 2.0,
+            ),
+          ),
+          child: CircleAvatar(
+            radius: isActive ? 22 : 20,
+            backgroundColor: isActive || isCompleted
+                ? AppColor.PRIMARY
+                : AppColor.TEXT_SECONDARY,
+            child: Text(
+              '0${step + 1}',
+              style: TextStyle(
+                  color:
+                      isActive || isCompleted ? Colors.white : AppColor.PRIMARY,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLine() {
+    return Container(
+      width: 100,
+      height: 2,
+      color: AppColor.PRIMARY_LIGHT,
+    );
+  }
+
   Widget _buildContent() {
     switch (_currentStep) {
       case 0:
@@ -134,7 +390,7 @@ class _MakeBookingScreenState extends State<MakeBookingScreen> {
                   children: mergedArray[currentIndex]["times"]!.map((time) {
                     bool isSelected = _selectedTime == time;
                     bool isDisabled =
-                    false; // Logic to disable times (e.g., past times)
+                        false; // Logic to disable times (e.g., past times)
 
                     return GestureDetector(
                       // ignore: dead_code
@@ -143,9 +399,9 @@ class _MakeBookingScreenState extends State<MakeBookingScreen> {
                         color: isSelected
                             ? AppColor.PRIMARY
                             : isDisabled
-                        // ignore: dead_code
-                            ? Colors.grey
-                            : Colors.white,
+                                // ignore: dead_code
+                                ? Colors.grey
+                                : Colors.white,
                         child: Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: Row(
@@ -161,8 +417,8 @@ class _MakeBookingScreenState extends State<MakeBookingScreen> {
                               ),
                               ElevatedButton(
                                 onPressed:
-                                // ignore: dead_code
-                                isDisabled ? null : () => _selectTime(time),
+                                    // ignore: dead_code
+                                    isDisabled ? null : () => _selectTime(time),
                                 style: ElevatedButton.styleFrom(
                                   foregroundColor: isSelected
                                       ? AppColor.PRIMARY
@@ -187,13 +443,13 @@ class _MakeBookingScreenState extends State<MakeBookingScreen> {
       case 2:
         return const Expanded(
             child: Column(
-              children: [
-                SizedBox(
-                  height: 100,
-                ),
-                BookingDetailsCard(),
-              ],
-            ));
+          children: [
+            SizedBox(
+              height: 100,
+            ),
+            BookingDetailsCard(),
+          ],
+        ));
       default:
         return Container();
     }
@@ -203,7 +459,7 @@ class _MakeBookingScreenState extends State<MakeBookingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.TEXT_SECONDARY,
-      appBar:   AppBar(
+      appBar: AppBar(
         iconTheme:
             const IconThemeData(color: AppColor.TEXT_SECONDARY, size: 30),
         backgroundColor: AppColor.PRIMARY,
@@ -220,36 +476,70 @@ class _MakeBookingScreenState extends State<MakeBookingScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            const SizedBox(height: 100),
+            const SizedBox(height: 20),
             _buildStepper(),
-            const SizedBox(height: 100),
+            const SizedBox(height: 20),
             _buildContent(),
             Padding(
-              padding: const EdgeInsets.only(
-                  bottom: 20, top: 30), // Add bottom margin here
+              padding: const EdgeInsets.only(bottom: 20, top: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   if (_currentStep != 0)
-                    CsutomAuthButton(
+                    CustomAuthButton(
                       buttonText: 'Back',
                       onPressed: _previousStep,
                     ),
                   if (_currentStep == 2)
-                    const CsutomAuthButton(
-                      buttonText: 'Confiem',
+                    const CustomAuthButton(
+                      buttonText: 'Confirm',
                     ),
                   if (_currentStep != 2)
-                    CsutomAuthButton(
+                    CustomAuthButton(
                       buttonText: 'Next',
-                      onPressed: _nextStep,
-                    )
+                      onPressed: (_currentStep == 0
+                          ? _selectedServices.isNotEmpty
+                              ? _nextStep
+                              : null
+                          : (_selectedTime != null)
+                              ? _nextStep
+                              : null),
+                    ),
                 ],
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class CustomAuthButton extends StatelessWidget {
+  final String buttonText;
+  final VoidCallback? onPressed;
+
+  const CustomAuthButton({
+    super.key,
+    required this.buttonText,
+    this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        foregroundColor: AppColor.TEXT_SECONDARY,
+        backgroundColor: AppColor.PRIMARY,
+        padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 17),
+        minimumSize: const Size(100, 60), 
+        textStyle: const TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      child: Text(buttonText),
     );
   }
 }
