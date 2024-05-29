@@ -43,105 +43,157 @@ class _MakeBookingScreenState extends State<MakeBookingScreen> {
       }),
     );
   }
-
-  Widget _buildStep(int step) {
-    bool isActive = step == _currentStep;
-    bool isCompleted = step < _currentStep;
-
-    return Column(
-      children: [
-        AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: isActive ? AppColor.PRIMARY : AppColor.PRIMARY_LIGHT,
-              width: isActive ? 4.0 : 2.0,
-            ),
-          ),
-          child: CircleAvatar(
-            radius: isActive ? 22 : 20,
-            backgroundColor: isActive || isCompleted
-                ? AppColor.PRIMARY
-                : AppColor.TEXT_SECONDARY,
-            child: Text(
-              '0${step + 1}',
-              style: TextStyle(
-                  color:
-                      isActive || isCompleted ? Colors.white : AppColor.PRIMARY,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildLine() {
-    return Container(
-      width: 100,
-      height: 2,
-      color: AppColor.PRIMARY_LIGHT
-    );
-  }
-
   Widget _buildContent() {
     switch (_currentStep) {
       case 0:
-        return Column(
-          children: [
-            const Text(
-              "Choose Services:",
-              style: TextStyle(
-                  color: AppColor.TEXT_PRIMARY,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
-            ),
-            CheckboxListTile(
-              title: const Text('Haircut'),
-              value: _selectedServices.contains('Haircut'),
-              onChanged: (bool? value) {
-                setState(() {
-                  if (value == true) {
-                    _selectedServices.add('Haircut');
-                  } else {
-                    _selectedServices.remove('Haircut');
-                  }
-                });
-              },
-            ),
-            CheckboxListTile(
-              title: const Text('Hair Style'),
-              value: _selectedServices.contains('Hair Style'),
-              onChanged: (bool? value) {
-                setState(() {
-                  if (value == true) {
-                    _selectedServices.add('Hair Style');
-                  } else {
-                    _selectedServices.remove('Hair Style');
-                  }
-                });
-              },
-            ),
-            CheckboxListTile(
-              title: const Text('Beard Style'),
-              value: _selectedServices.contains('Beard Style'),
-              onChanged: (bool? value) {
-                setState(() {
-                  if (value == true) {
-                    _selectedServices.add('Beard Style');
-                  } else {
-                    _selectedServices.remove('Beard Style');
-                  }
-                });
-              },
-            ),
-          ],
+        return Expanded(
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 100,
+              ),
+              const Text(
+                "Choose Services:",
+                style: TextStyle(
+                    color: AppColor.TEXT_PRIMARY,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
+              ..._services.map((service) {
+                return CheckboxListTile(
+                  title: Text(service['title']),
+                  value: _selectedServices.contains(service['title']),
+                  onChanged: (bool? value) {
+                    _toggleServiceSelection(service['title'], service['time']);
+                  },
+                );
+              }),
+              if (_selectedServices.isNotEmpty)
+                Text(
+                  'Total time: ${_totalTime ~/ 60} hour(s) and ${_totalTime % 60} minute(s)',
+                  style: const TextStyle(
+                    color: AppColor.TEXT_PRIMARY,
+                    fontSize: 16,
+                  ),
+                ),
+            ],
+          ),
         );
       case 1:
-        return const Text('Content for Step 2');
+        return Expanded(
+          child: Column(
+            children: [
+              const Text(
+                "Select a Date:",
+                style: TextStyle(
+                    color: AppColor.TEXT_PRIMARY,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 100,
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        onPressed: previousDate,
+                        icon: const Icon(Icons.arrow_back_ios),
+                        color: const Color.fromARGB(255, 192, 191, 199),
+                        iconSize: 50,
+                      ),
+                      const SizedBox(width: 20),
+                      Text(
+                        daysOfFebruary2024[currentIndex],
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 28,
+                        ),
+                      ),
+                      const SizedBox(width: 20),
+                      IconButton(
+                        onPressed: nextDate,
+                        icon: const Icon(Icons.arrow_forward_ios),
+                        color: const Color.fromARGB(255, 192, 191, 199),
+                        iconSize: 50,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                "Select a Time:",
+                style: TextStyle(
+                    color: AppColor.TEXT_PRIMARY,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
+              Expanded(
+                child: ListView(
+                  children: mergedArray[currentIndex]["times"]!.map((time) {
+                    bool isSelected = _selectedTime == time;
+                    bool isDisabled =
+                    false; // Logic to disable times (e.g., past times)
+
+                    return GestureDetector(
+                      // ignore: dead_code
+                      onTap: isDisabled ? null : () => _selectTime(time),
+                      child: Card(
+                        color: isSelected
+                            ? AppColor.PRIMARY
+                            : isDisabled
+                        // ignore: dead_code
+                            ? Colors.grey
+                            : Colors.white,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                time,
+                                style: TextStyle(
+                                  color: isSelected || isDisabled
+                                      ? Colors.white
+                                      : AppColor.TEXT_PRIMARY,
+                                ),
+                              ),
+                              ElevatedButton(
+                                onPressed:
+                                // ignore: dead_code
+                                isDisabled ? null : () => _selectTime(time),
+                                style: ElevatedButton.styleFrom(
+                                  foregroundColor: isSelected
+                                      ? AppColor.PRIMARY
+                                      : Colors.white,
+                                  backgroundColor: isSelected
+                                      ? Colors.white
+                                      : AppColor.PRIMARY,
+                                ),
+                                child: const Text('Select'),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ],
+          ),
+        );
       case 2:
-        return const Text('Content for Step 3');
+        return const Expanded(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 100,
+                ),
+                BookingDetailsCard(),
+              ],
+            ));
       default:
         return Container();
     }
