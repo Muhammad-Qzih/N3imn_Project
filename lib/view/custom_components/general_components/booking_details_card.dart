@@ -63,7 +63,7 @@ class _BookingDetailsCardState extends State<BookingDetailsCard> {
                       ?.copyWith(color: AppColor.TEXT_PRIMARY),
                   children: [
                     TextSpan(
-                      text: "Feb 23,2024 ",
+                      text: "Feb 2,2024 ",
                       style: theme.textTheme.displayMedium
                           ?.copyWith(color: AppColor.TEXT_SECONDARY_LIGHT),
                     ),
@@ -77,7 +77,7 @@ class _BookingDetailsCardState extends State<BookingDetailsCard> {
                       ?.copyWith(color: AppColor.TEXT_PRIMARY),
                   children: [
                     TextSpan(
-                      text: "2:00 AM ",
+                      text: "8:00 AM ",
                       style: theme.textTheme.displayMedium
                           ?.copyWith(color: AppColor.TEXT_SECONDARY_LIGHT),
                     ),
@@ -91,7 +91,7 @@ class _BookingDetailsCardState extends State<BookingDetailsCard> {
                       ?.copyWith(color: AppColor.TEXT_PRIMARY),
                   children: [
                     TextSpan(
-                      text: "  3:00 AM ",
+                      text: " 9:00 AM ",
                       style: theme.textTheme.displayMedium
                           ?.copyWith(color: AppColor.TEXT_SECONDARY_LIGHT),
                     ),
@@ -125,7 +125,7 @@ class _BookingDetailsCardState extends State<BookingDetailsCard> {
               ),
               const SizedBox(height: 2),
               const Text(
-                "Time Required: 1:30 h",
+                "Time Required: 1:00 h",
                 style: TextStyle(
                   color: AppColor.TEXT_PRIMARY,
                   fontSize: 16,

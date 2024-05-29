@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:n3imn_project_team/themes/colors_theme.dart';
+import 'package:n3imn_project_team/utils/Dialogs/dialgos.dart';
 import 'package:n3imn_project_team/view/custom_components/general_components/booking_details_card.dart';
 
 class MakeBookingScreen extends StatefulWidget {
@@ -20,7 +21,7 @@ class _MakeBookingScreenState extends State<MakeBookingScreen> {
     {'title': 'Hair Style', 'time': 30},
     {'title': 'Beard Style', 'time': 30},
   ];
-  
+
   final List<Map<String, List<String>>> mergedArray = [
     {
       'times': [
@@ -224,6 +225,11 @@ class _MakeBookingScreenState extends State<MakeBookingScreen> {
         _currentStep -= 1;
       });
     }
+  }
+
+  void _confirmStep() {
+    _nextStep();
+    Navigator.of(context).pushReplacementNamed("customerhomepage");
   }
 
   void _toggleServiceSelection(String service, int time) {
@@ -491,8 +497,11 @@ class _MakeBookingScreenState extends State<MakeBookingScreen> {
                       onPressed: _previousStep,
                     ),
                   if (_currentStep == 2)
-                    const CustomAuthButton(
+                    CustomAuthButton(
                       buttonText: 'Confirm',
+                      onPressed: () => {
+                        _confirmStep()
+                      },
                     ),
                   if (_currentStep != 2)
                     CustomAuthButton(
@@ -533,7 +542,7 @@ class CustomAuthButton extends StatelessWidget {
         foregroundColor: AppColor.TEXT_SECONDARY,
         backgroundColor: AppColor.PRIMARY,
         padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 17),
-        minimumSize: const Size(100, 60), 
+        minimumSize: const Size(100, 60),
         textStyle: const TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
