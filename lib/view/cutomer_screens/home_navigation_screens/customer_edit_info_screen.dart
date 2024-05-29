@@ -40,7 +40,7 @@ class _CustomerEditInfoScreen extends State<CustomerEditInfoScreen> {
               const IconThemeData(color: AppColor.TEXT_SECONDARY, size: 30),
           backgroundColor: AppColor.PRIMARY,
           title: const Text(
-            "ُEdit Services",
+            "ُEdit Information",
             style: TextStyle(
               fontSize: 20,
               color: AppColor.TEXT_SECONDARY,

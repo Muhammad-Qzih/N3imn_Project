@@ -44,4 +44,25 @@ class BookingRepository implements IBookingRepository {
 
     return querySnapshot.docs.map((doc) => Booking.fromFirestore(doc)).toList();
   }
+
+  Future<List<Booking>> getUpcomingBookingsByBarberId(
+      String barberId) async {
+    QuerySnapshot querySnapshot = await _bookingCollection
+        .where('barberId', isEqualTo: barberId)
+        .where('status', isEqualTo: 0)
+        .get();
+
+    return querySnapshot.docs.map((doc) => Booking.fromFirestore(doc)).toList();
+  }
+  Future<bool> updateBookingStatus(String barberId, int status) async {
+
+    return _bookingCollection.doc(barberId).update({
+      'status': status,
+    }).then((_) {
+      return true;
+    }).catchError((error) {
+      print('Error updating booking status: $error');
+      return false;
+    });
+  }
 }
