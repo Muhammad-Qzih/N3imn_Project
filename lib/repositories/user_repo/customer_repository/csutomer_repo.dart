@@ -40,4 +40,13 @@ class CustomerRepository implements ICustomerRepository {
         await _customerCollection.doc(customerId).get();
     return Customer.fromJson(user.data() as Map<String, dynamic>);
   }
+  
+  Future<List<Customer>> getAllCustomers() async {
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection("customers").get();
+
+    return querySnapshot.docs
+        .map((doc) => Customer.fromFirestore(doc))
+        .toList();
+  }
 }
