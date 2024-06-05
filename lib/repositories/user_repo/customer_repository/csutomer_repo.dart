@@ -15,10 +15,12 @@ class CustomerRepository implements ICustomerRepository {
         );
   }
 
+  @override
   Future<DocumentSnapshot?> getCustomerDocumentByID(String customerId) async {
     return await _customerCollection.doc(customerId).get();
   }
 
+  @override
   Future<bool> doesCustomerExist(String email) async {
     QuerySnapshot<Object?> querySnapshot =
         await _customerCollection.where('email', isEqualTo: email).get();
@@ -26,6 +28,7 @@ class CustomerRepository implements ICustomerRepository {
     return querySnapshot.docs.isNotEmpty;
   }
 
+  @override
   Future<void> updateCustomerProfileById(String user, String nameController,
       String emailController, String phoneController) async {
     await _customerCollection.doc(user).update({
@@ -35,9 +38,20 @@ class CustomerRepository implements ICustomerRepository {
     });
   }
 
+  @override
   Future<Customer?> fetchCustomerProfile(String customerId) async {
     DocumentSnapshot<Object?> user =
         await _customerCollection.doc(customerId).get();
     return Customer.fromJson(user.data() as Map<String, dynamic>);
+  }
+
+  @override
+  Future<List<Customer>> getAllCustomers() async {
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection("customers").get();
+
+    return querySnapshot.docs
+        .map((doc) => Customer.fromFirestore(doc))
+        .toList();
   }
 }

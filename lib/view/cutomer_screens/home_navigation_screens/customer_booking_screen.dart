@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:n3imn_project_team/model/bookings_model.dart/booking_model.dart';
-import 'package:n3imn_project_team/repositories/user_repo/booking_repo/booking_repo.dart';
+import 'package:n3imn_project_team/model/bookings_model.dart/booking_add_model.dart';
+import 'package:n3imn_project_team/repositories/booking_repo/booking_repo.dart';
 import 'package:n3imn_project_team/themes/colors_theme.dart';
 import 'package:n3imn_project_team/view/custom_components/general_components/booking_card.dart';
 
@@ -75,11 +75,11 @@ class UpcomingSection extends StatefulWidget {
 class _UpcomingSectionState extends State<UpcomingSection> {
   final _bookingRepo = BookingRepository();
 
-  List<Booking> _listBookings = [];
+  List<BookingModel> _listBookings1 = [];
 
   getData() async {
-    _listBookings = await _bookingRepo
-        .getUpcomingBookingsByCustomerId(FirebaseAuth.instance.currentUser!.uid);
+    _listBookings1 = await _bookingRepo.getUpcomingBookingsByCustomerId(
+        FirebaseAuth.instance.currentUser!.uid);
     setState(() {});
   }
 
@@ -98,15 +98,15 @@ class _UpcomingSectionState extends State<UpcomingSection> {
           children: [
             GridView.builder(
               shrinkWrap: true,
-              physics:  const ClampingScrollPhysics(), // Enable scrolling for GridView
+              physics: const ClampingScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 1, // Number of columns
-                crossAxisSpacing: 10, // Horizontal spacing between cards
-                childAspectRatio: 1.6, // Aspect ratio of each card
+                crossAxisCount: 1,
+                crossAxisSpacing: 10,
+                childAspectRatio: 1.6,
               ),
-              itemCount: _listBookings.length,
+              itemCount: _listBookings1.length,
               itemBuilder: (context, index) {
-                final booking = _listBookings[index];
+                final booking = _listBookings1[index];
                 return BookingCard(booking: booking);
               },
             ),
@@ -127,13 +127,13 @@ class CompletedSection extends StatefulWidget {
 class _CompletedSectionState extends State<CompletedSection> {
   final _bookingRepo = BookingRepository();
 
-  List<Booking> _listCompletedBookings = [];
+  List<BookingModel> _listCompletedBookings = [];
 
   getData() async {
     _listCompletedBookings =
         await _bookingRepo.getCompletedBookingsByCustomerId(
             FirebaseAuth.instance.currentUser!.uid);
-    print(_listCompletedBookings.length);
+
     setState(() {});
   }
 
@@ -172,7 +172,6 @@ class _CompletedSectionState extends State<CompletedSection> {
   }
 }
 
-
 class CancelledSection extends StatefulWidget {
   const CancelledSection({super.key});
   @override
@@ -181,13 +180,13 @@ class CancelledSection extends StatefulWidget {
 
 class _CancelledSection extends State<CancelledSection> {
   final _bookingRepo = BookingRepository();
-  List<Booking> _listCancelledBookings = [];
+  List<BookingModel> _listCancelledBookings = [];
 
   getData() async {
     _listCancelledBookings =
         await _bookingRepo.getCancelledBookingsByCustomerId(
             FirebaseAuth.instance.currentUser!.uid);
-    print(_listCancelledBookings.length);
+
     setState(() {});
   }
 
@@ -206,12 +205,11 @@ class _CancelledSection extends State<CancelledSection> {
           children: [
             GridView.builder(
               shrinkWrap: true,
-              physics:
-                  const ClampingScrollPhysics(), // Enable scrolling for GridView
+              physics: const ClampingScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 1, // Number of columns
-                crossAxisSpacing: 10, // Horizontal spacing between cards
-                childAspectRatio: 1.6, // Aspect ratio of each card
+                crossAxisCount: 1,
+                crossAxisSpacing: 10,
+                childAspectRatio: 1.6,
               ),
               itemCount: _listCancelledBookings.length,
               itemBuilder: (context, index) {

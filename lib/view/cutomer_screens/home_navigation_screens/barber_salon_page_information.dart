@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:n3imn_project_team/model/user_model/barber_model.dart';
+import 'package:n3imn_project_team/model/user_model/services_model.dart';
+import 'package:n3imn_project_team/repositories/user_repo/barber_repsitory/barber_repo.dart';
 import 'package:n3imn_project_team/themes/colors_theme.dart';
 
 class BarberSalonBageInformation extends StatefulWidget {
@@ -12,9 +14,41 @@ class BarberSalonBageInformation extends StatefulWidget {
 
 class _BarberSalonBageInformationState
     extends State<BarberSalonBageInformation> {
+  final List<String> _services = [];
+  late final BarberSalon barber;
+  bool _initialized = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  getServices(String? barberid) async {
+    try {
+      BarberRepository barberRepository = BarberRepository();
+      final BarberService? services =
+          await barberRepository.getBarberServices(barberid!);
+
+      if (services != null) {
+        setState(() {
+          _services.addAll(services.services);
+        });
+      } else {
+        setState(() {});
+      }
+    } catch (e) {
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final barber = ModalRoute.of(context)!.settings.arguments as BarberSalon;
+    if (!_initialized) {
+      barber = ModalRoute.of(context)!.settings.arguments as BarberSalon;
+      getServices(barber.id);
+      _initialized = true;
+    }
+
     return Scaffold(
       backgroundColor: AppColor.TEXT_SECONDARY,
       appBar: AppBar(
@@ -36,20 +70,18 @@ class _BarberSalonBageInformationState
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Image
               Container(
                 width: double.infinity,
                 height: 200,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
-                    color: Colors.grey.shade100, // Choose your border color
-                    width: 2, // Choose your border width
+                    color: Colors.grey.shade100,
+                    width: 2,
                   ),
                   image: DecorationImage(
                     image: NetworkImage(
-                      barber.pictureUrl ??
-                          'Iamges/logo.png', // Use a default image URL if pictureUrl is null
+                      barber.pictureUrl ?? 'Iamges/logo.png',
                     ),
                     fit: BoxFit.cover,
                   ),
@@ -130,20 +162,12 @@ class _BarberSalonBageInformationState
                   Wrap(
                     spacing: 8,
                     runSpacing: 8,
-                    children: [
-                      _buildChip("Haircut"),
-                      _buildChip("Beard Style"),
-                    ],
+                    children: _services
+                        .map((service) => _buildChip(service))
+                        .toList(),
                   ),
                   const SizedBox(
                     height: 8,
-                  ),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: [
-                      _buildChip("Hair Style"),
-                    ],
                   ),
                 ],
               ),
@@ -153,7 +177,13 @@ class _BarberSalonBageInformationState
               Center(
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).pushNamed("cutomerbooking");
+                    Navigator.of(context).pushNamed(
+                      "cutomerbooking",
+                      arguments: {
+                        'barber': barber,
+                        'services': _services,
+                      },
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColor.PRIMARY,
@@ -181,6 +211,6 @@ Widget _buildChip(String label) {
       borderRadius: BorderRadius.circular(50.0),
       color: AppColor.PRIMARY,
     ),
-    child: Text(label, style: TextStyle(color: Colors.white)),
+    child: Text(label, style: const TextStyle(color: Colors.white)),
   );
 }

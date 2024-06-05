@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:n3imn_project_team/model/bookings_model.dart/booking_model.dart';
+import 'package:n3imn_project_team/model/bookings_model.dart/booking_add_model.dart';
+import 'package:n3imn_project_team/repositories/booking_repo/booking_repo.dart';
 import 'package:n3imn_project_team/themes/colors_theme.dart';
-import 'package:n3imn_project_team/utils/helper/date_fortmater.dart/date_formatter.dart';
 
 class BookingCard extends StatefulWidget {
-  final Booking booking;
+  final BookingModel booking;
+  
   const BookingCard({super.key, required this.booking});
 
   @override
@@ -12,6 +13,8 @@ class BookingCard extends StatefulWidget {
 }
 
 class _BookingCardState extends State<BookingCard> {
+  final _bookingRepo = BookingRepository();
+        
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
@@ -21,23 +24,20 @@ class _BookingCardState extends State<BookingCard> {
     switch (widget.booking.status) {
       case 0:
         buttonText = 'Cancel';
-        buttonAction = () {
-          // Handle Cancel Action
+        buttonAction = () async {
+          String? bookingId = widget.booking.id;
+        await  _bookingRepo.cancelBooking(bookingId);
+            Navigator.of(context).pushNamed("customerhomepage");
         };
         break;
       case 1:
         buttonText = 'Feedback';
         buttonAction = () {
-            Navigator.of(context).pushNamed("feedback");
-          // Handle Feedback Action
+          String? barberId = widget.booking.barberId;
+          Navigator.of(context).pushNamed("feedback",arguments:barberId);
         };
         break;
-      case 2:
-        buttonText = 'Re-book';
-        buttonAction = () {
-          // Handle Re-book Action
-        };
-        break;
+
       default:
         buttonText = '';
         buttonAction = () {};
@@ -76,8 +76,7 @@ class _BookingCardState extends State<BookingCard> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        DateFormatter.timestampToString(
-                            widget.booking.startBookingTime),
+                        "${widget.booking.date} / ${widget.booking.startBookingTime}",
                         style: theme.textTheme.displayLarge
                             ?.copyWith(color: AppColor.TEXT_PRIMARY),
                       ),
@@ -127,9 +126,9 @@ class _BookingCardState extends State<BookingCard> {
                 ),
               ),
               const SizedBox(height: 2),
-              Text(
-                "Time Required: ${DateFormatter.calculateHourDifference(DateFormatter.timestampToString(widget.booking.startBookingTime), DateFormatter.timestampToString(widget.booking.endBookingTime))}",
-                style: const TextStyle(
+              const Text(
+                "Time Required: 1h",
+                style: TextStyle(
                   color: AppColor.TEXT_PRIMARY,
                   fontSize: 16,
                 ),
@@ -153,6 +152,7 @@ class _BookingCardState extends State<BookingCard> {
                       ),
                     ],
                   ),
+                  if(widget.booking.status != 2)
                   ElevatedButton(
                     onPressed: buttonAction,
                     style: ElevatedButton.styleFrom(

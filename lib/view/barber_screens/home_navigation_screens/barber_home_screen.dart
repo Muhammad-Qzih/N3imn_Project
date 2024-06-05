@@ -26,7 +26,7 @@ class _BarberHomeScreenState extends State<BarberHomeScreen> {
 
   final List<Widget> _widgetOptions = <Widget>[
     const BarberHome(),
-    const BarberReservatons(),
+    const BarberReservations(),
     const BarberDashbored(),
     const BarberProfile(),
   ];

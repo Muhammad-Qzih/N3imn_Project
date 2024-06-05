@@ -1,17 +1,17 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:n3imn_project_team/themes/colors_theme.dart';
 import 'package:provider/provider.dart';
 import '../../../view_model/feedback_view_model.dart';
 
 class RateServicePage extends StatelessWidget {
-  final String salonId;
-  final String userId;
-
   const RateServicePage(
-      {super.key, required this.salonId, required this.userId});
+      {super.key});
 
   @override
   Widget build(BuildContext context) {
+        final argment = ModalRoute.of(context)!.settings.arguments as String;
+
     return ChangeNotifierProvider(
       create: (_) => FeedbackViewModel(),
       child: Scaffold(
@@ -126,7 +126,7 @@ class RateServicePage extends StatelessWidget {
                                 ? null
                                 : () async {
                               await viewModel.submitFeedback(
-                                  salonId, userId);
+                                  argment, FirebaseAuth.instance.currentUser!.uid);
                               Navigator.pop(context);
                             },
                             style: ElevatedButton.styleFrom(

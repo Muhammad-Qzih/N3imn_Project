@@ -7,4 +7,5 @@ abstract class IAuth {
   Future<AuthCredential?> getGoogleSignInCredentials();
   Future<UserCredential> signInWithCredential(AuthCredential credential);
   Future<void> resetPassword(String email);
+  FirebaseAuth getAuthInstance();
 }

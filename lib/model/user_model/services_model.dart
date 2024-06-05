@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class BarberService {
-
   final List<String> services;
 
   BarberService({
-
     required this.services,
   });
 
@@ -26,6 +24,4 @@ class BarberService {
       services: List<String>.from(doc["barberServices"] ?? []),
     );
   }
-
-  Object? size() {}
 }
