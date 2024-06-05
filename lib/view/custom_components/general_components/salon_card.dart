@@ -12,12 +12,12 @@ class SalonCard extends StatelessWidget {
 
   const SalonCard(
       {super.key,
-      required this.salonName,
-      required this.location,
-      required this.rating,
-      required this.onPressed,
-      required this.height,
-      required this.width});
+        required this.salonName,
+        required this.location,
+        required this.rating,
+        required this.onPressed,
+        required this.height,
+        required this.width});
 
   @override
   Widget build(BuildContext context) {

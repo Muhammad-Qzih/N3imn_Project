@@ -37,6 +37,33 @@ class BarberRepository implements IBarberRepository {
 
     return usersList;
   }
+  Future<List<BarberSalon>> getTopBarbers() async {
+    QuerySnapshot users =
+    await _barbersCollection.where('rating', isEqualTo: 5).get();
+    List<BarberSalon> usersList = [];
+
+    for (var user in users.docs) {
+      BarberSalon barber = BarberSalon.fromFirestore(user);
+      String? pictureURL = await getProfilePictureURL(barber.id);
+      barber.pictureUrl = pictureURL;
+      usersList.add(barber);
+    }
+
+    return usersList;
+  }
+
+  Future<List<BarberSalon>> getReommendedBarbers() async {
+    QuerySnapshot users =
+    await _barbersCollection.where('rating', whereIn: [5, 4]).get();
+    List<BarberSalon> usersList = [];
+
+    for (var user in users.docs) {
+      BarberSalon barber = BarberSalon.fromFirestore(user);
+      String? pictureURL = await getProfilePictureURL(barber.id);
+      barber.pictureUrl = pictureURL;
+      usersList.add(barber);
+    }
+
 
   Future<String?> getProfilePictureURL(String? userId) async {
     Reference reference =

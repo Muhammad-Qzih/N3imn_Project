@@ -52,15 +52,17 @@ class BookingRepository implements IBookingRepository {
         .toList();
   }
 
-  Future<List<Booking>> getUpcomingBookingsByBarberId(String barberId) async {
+  Future<List<BookingModel>> getUpcomingBookingsByCustomerId(
+      String customerId) async {
     QuerySnapshot querySnapshot = await _bookingCollection
-        .where('barberId', isEqualTo: barberId)
+        .where('customerId', isEqualTo: customerId)
         .where('status', isEqualTo: 0)
         .get();
 
-    return querySnapshot.docs.map((doc) => Booking.fromFirestore(doc)).toList();
+    return querySnapshot.docs
+        .map((doc) => BookingModel.fromFirestore(doc))
+        .toList();
   }
-
   Future<bool> updateBookingStatus(String barberId, int status) async {
     return _bookingCollection.doc(barberId).update({
       'status': status,
@@ -82,6 +84,18 @@ class BookingRepository implements IBookingRepository {
         .where('barberId', isEqualTo: barberId)
         .where('status', isEqualTo: 5)
         .get();
+    return querySnapshot.docs
+        .map((doc) => BookingModel.fromFirestore(doc))
+        .toList();
+  }
+
+  Future<List<BookingModel>> getUpcomingBookingsByBarberId(
+      String barberId) async {
+    QuerySnapshot querySnapshot = await _bookingCollection
+        .where('barberId', isEqualTo: barberId)
+        .where('status', isEqualTo: 0)
+        .get();
+
     return querySnapshot.docs
         .map((doc) => BookingModel.fromFirestore(doc))
         .toList();
@@ -121,4 +135,7 @@ class BookingRepository implements IBookingRepository {
       print('No matching booking found.');
     }
   }
+
+
+
 }
