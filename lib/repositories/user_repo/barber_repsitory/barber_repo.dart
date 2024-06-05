@@ -21,14 +21,6 @@ class BarberRepository implements IBarberRepository {
     return await _barbersCollection.doc(barberId).get();
   }
 
-  // Future<List<BarberSalon>> getBarbers() async {
-  //   QuerySnapshot users = await _barbersCollection.get();
-  //   List<BarberSalon> usersList = [];
-  //   for (var user in users.docs) {
-  //     usersList.add(BarberSalon.fromFirestore(user));
-  //   }
-  //   return usersList;
-  // }
   Future<List<BarberSalon>> getBarbers() async {
     QuerySnapshot users = await _barbersCollection.get();
     List<BarberSalon> usersList = [];
@@ -36,10 +28,8 @@ class BarberRepository implements IBarberRepository {
     for (var user in users.docs) {
       BarberSalon barber = BarberSalon.fromFirestore(user);
 
-      // Get the URL for the barber's profile picture
       String? pictureURL = await getProfilePictureURL(barber.id);
 
-      // Assign the picture URL to the barber object
       barber.pictureUrl = pictureURL;
 
       usersList.add(barber);
@@ -49,18 +39,15 @@ class BarberRepository implements IBarberRepository {
   }
 
   Future<String?> getProfilePictureURL(String? userId) async {
-    // Construct the reference to the image using the userId
     Reference reference =
         FirebaseStorage.instance.ref().child('profilePictures/$userId.jpg');
 
     try {
-      // Get the download URL for the image
       String downloadURL = await reference.getDownloadURL();
       return downloadURL;
     } catch (e) {
-      // Handle errors if the image doesn't exist or other issues
       print('Error getting profile picture for user $userId: $e');
-      return null; // Or return a default image URL
+      return null;
     }
   }
 
@@ -105,6 +92,21 @@ class BarberRepository implements IBarberRepository {
     return usersList;
   }
 
+  Future<List<BarberSalon>> getReommendedBarbers() async {
+    QuerySnapshot users =
+        await _barbersCollection.where('rating', whereIn: [5, 4]).get();
+    List<BarberSalon> usersList = [];
+
+    for (var user in users.docs) {
+      BarberSalon barber = BarberSalon.fromFirestore(user);
+      String? pictureURL = await getProfilePictureURL(barber.id);
+      barber.pictureUrl = pictureURL;
+      usersList.add(barber);
+    }
+
+    return usersList;
+  }
+
   Future<void> updateServices(String barberId, List<String> services) async {
     try {
       final serviceRef =
@@ -121,21 +123,21 @@ class BarberRepository implements IBarberRepository {
   }
 
   Future<BarberService?> getBarberServices(String barberId) async {
-  try {
-    final DocumentSnapshot doc = await FirebaseFirestore.instance
-        .collection('services')
-        .doc(barberId)
-        .get();
+    try {
+      final DocumentSnapshot doc = await FirebaseFirestore.instance
+          .collection('services')
+          .doc(barberId)
+          .get();
 
-    if (doc.exists) {
-      return BarberService.fromFirestore(doc);
-    } else {
-      print('No such document!');
+      if (doc.exists) {
+        return BarberService.fromFirestore(doc);
+      } else {
+        print('No such document!');
+        return null;
+      }
+    } catch (error) {
+      print('Error getting barber services: $error');
       return null;
     }
-  } catch (error) {
-    print('Error getting barber services: $error');
-    return null;
   }
-}
 }

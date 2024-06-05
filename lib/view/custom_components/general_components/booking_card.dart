@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:n3imn_project_team/model/bookings_model.dart/booking_model.dart';
+import 'package:n3imn_project_team/model/bookings_model.dart/booking_add_model.dart';
 import 'package:n3imn_project_team/themes/colors_theme.dart';
-import 'package:n3imn_project_team/utils/helper/date_fortmater.dart/date_formatter.dart';
 
 class BookingCard extends StatefulWidget {
-  final Booking booking;
+  final BookingModel booking;
   const BookingCard({super.key, required this.booking});
 
   @override
@@ -21,22 +20,17 @@ class _BookingCardState extends State<BookingCard> {
     switch (widget.booking.status) {
       case 0:
         buttonText = 'Cancel';
-        buttonAction = () {
-          // Handle Cancel Action
-        };
+        buttonAction = () {};
         break;
       case 1:
         buttonText = 'Feedback';
         buttonAction = () {
-            Navigator.of(context).pushNamed("feedback");
-          // Handle Feedback Action
+          Navigator.of(context).pushNamed("feedback");
         };
         break;
       case 2:
         buttonText = 'Re-book';
-        buttonAction = () {
-          // Handle Re-book Action
-        };
+        buttonAction = () {};
         break;
       default:
         buttonText = '';
@@ -76,8 +70,7 @@ class _BookingCardState extends State<BookingCard> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        DateFormatter.timestampToString(
-                            widget.booking.startBookingTime),
+                        "${widget.booking.date} / ${widget.booking.startBookingTime}",
                         style: theme.textTheme.displayLarge
                             ?.copyWith(color: AppColor.TEXT_PRIMARY),
                       ),
@@ -127,9 +120,9 @@ class _BookingCardState extends State<BookingCard> {
                 ),
               ),
               const SizedBox(height: 2),
-              Text(
-                "Time Required: ${DateFormatter.calculateHourDifference(DateFormatter.timestampToString(widget.booking.startBookingTime), DateFormatter.timestampToString(widget.booking.endBookingTime))}",
-                style: const TextStyle(
+              const Text(
+                "Time Required: 1h",
+                style: TextStyle(
                   color: AppColor.TEXT_PRIMARY,
                   fontSize: 16,
                 ),

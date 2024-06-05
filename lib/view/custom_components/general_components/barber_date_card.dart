@@ -4,7 +4,7 @@ import 'package:n3imn_project_team/themes/colors_theme.dart';
 class BarberDateCard extends StatelessWidget {
   final String date;
   final String salonName;
-  final List<String> services;
+  final Set<String> services;
   final String location;
   final VoidCallback onPressed;
   final double? width;
