@@ -75,55 +75,54 @@ class _BarberHomeState extends State<BarberHome> {
       backgroundColor: AppColor.TEXT_SECONDARY,
       body: isLodding == true
           ? const Center(
-        child: CircularProgressIndicator(),
-      )
+              child: CircularProgressIndicator(),
+            )
           : Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 5),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-            child: Text(
-              "Customers reservations",
-              style: TextStyle(
-                fontSize: 23,
-                color: AppColor.TEXT_PRIMARY,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 1),
-              child: ListView.builder(
-                itemCount: _listUpcommingBookings.length,
-                itemBuilder: (context, index) {
-                  final booking = _listUpcommingBookings[index];
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 5),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                  child: Text(
+                    "Customers reservations",
+                    style: TextStyle(
+                      fontSize: 23,
+                      color: AppColor.TEXT_PRIMARY,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 1),
+                    child: ListView.builder(
+                      itemCount: _listUpcommingBookings.length,
+                      itemBuilder: (context, index) {
+                        final booking = _listUpcommingBookings[index];
 
-                  final customerInfo =
-                      customerInfoMap[booking.customerId] ??
-                          {'name': 'Unknown', 'phone': 'Unknown'};
+                        final customerInfo =
+                            customerInfoMap[booking.customerId] ??
+                                {'name': 'Unknown', 'phone': 'Unknown'};
 
-                  final customerName = customerInfo['name']!;
-                  final customerPhone = customerInfo['phone']!;
-                  return BarberAppointmentCard(
-                    date: "${booking.date}, ${booking.startBookingTime}",
-                    services: booking.services,
-                    timeRequired: "1h",
-                    cusotmerName: customerName,
-                    customerPhoneNumber: customerPhone,
-                    width:
-                    double.infinity, // Make the card take full width
-                    height: 180,
-                  );
-                },
-              ),
+                        final customerName = customerInfo['name']!;
+                        final customerPhone = customerInfo['phone']!;
+                        return BarberAppointmentCard(
+                          date: "${booking.date}, ${booking.startBookingTime}",
+                          services: booking.services,
+                          timeRequired: "1h",
+                          cusotmerName: customerName,
+                          customerPhoneNumber: customerPhone,
+                          width:
+                              double.infinity, // Make the card take full width
+                          height: 180,
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+              ],
             ),
-          ),
-          const SizedBox(height: 10),
-        ],
-      ),
     );
   }
 }
-

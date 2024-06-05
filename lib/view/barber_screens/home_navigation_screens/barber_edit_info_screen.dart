@@ -13,8 +13,8 @@ class BarberEditInfoScreen extends StatefulWidget {
 }
 
 class _BarberEditInfoScreenState extends State<BarberEditInfoScreen> {
-    final BarberSalonEditInfoViewModel barberEditInfoViewModel =
-       BarberSalonEditInfoViewModel();
+  final BarberSalonEditInfoViewModel barberEditInfoViewModel =
+      BarberSalonEditInfoViewModel();
   GlobalKey<FormState> formState = GlobalKey<FormState>();
 
   getData() async {
@@ -23,7 +23,6 @@ class _BarberEditInfoScreenState extends State<BarberEditInfoScreen> {
     barberEditInfoViewModel.emailController.text = barberSalon.email;
     barberEditInfoViewModel.phoneController.text = barberSalon.phoneNumber;
     barberEditInfoViewModel.locationController.text = barberSalon.location;
-
   }
 
   @override
@@ -31,10 +30,10 @@ class _BarberEditInfoScreenState extends State<BarberEditInfoScreen> {
     getData();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-  
         appBar: AppBar(
           iconTheme:
               const IconThemeData(color: AppColor.TEXT_SECONDARY, size: 30),
@@ -58,59 +57,64 @@ class _BarberEditInfoScreenState extends State<BarberEditInfoScreen> {
                   height: 100,
                 ),
                 Form(
-                  key: formState,
+                    key: formState,
                     child: Column(children: [
-                  CustomEditTextField(
-                    labelName: "Salon name",
-                    validator: AuthValidator.validSalonName,
-                    textEditingController: barberEditInfoViewModel.shopNameController,
-                    obsecureText: false,
-                    icon: Icons.person_outline,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  CustomEditTextField(
-                    labelName: "E-Mail",
-                    validator: AuthValidator.validSalonName,
-                    textEditingController: barberEditInfoViewModel.emailController,
-                    obsecureText: false,
-                    icon: Icons.email_outlined,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  CustomEditTextField(
-                    labelName: "Location",
-                    validator: AuthValidator.validSalonName,
-                    textEditingController: barberEditInfoViewModel.locationController,
-                    obsecureText: false,
-                    icon: Icons.location_on_outlined,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  CustomEditTextField(
-                    labelName: "Phone number",
-                    validator: AuthValidator.validSalonName,
-                    textEditingController: barberEditInfoViewModel.phoneController,
-                    obsecureText: false,
-                    icon: Icons.phone_outlined,
-                  ),
-                  const SizedBox(
-                    height: 40,
-                  ),
-                   CsutomAuthButton(
-                    buttonText: 'Update Informaition',
-                    textStyle: const TextStyle(
-                      color: AppColor.TEXT_SECONDARY,
-                      fontSize: 20,
-                    ),
-                    onPressed: (){
-                      barberEditInfoViewModel.updateBarberProfile(context, formState);
-                    },
-                  )
-                ])),
+                      CustomEditTextField(
+                        labelName: "Salon name",
+                        validator: AuthValidator.validSalonName,
+                        textEditingController:
+                            barberEditInfoViewModel.shopNameController,
+                        obsecureText: false,
+                        icon: Icons.person_outline,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      CustomEditTextField(
+                        labelName: "E-Mail",
+                        validator: AuthValidator.validSalonName,
+                        textEditingController:
+                            barberEditInfoViewModel.emailController,
+                        obsecureText: false,
+                        icon: Icons.email_outlined,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      CustomEditTextField(
+                        labelName: "Location",
+                        validator: AuthValidator.validSalonName,
+                        textEditingController:
+                            barberEditInfoViewModel.locationController,
+                        obsecureText: false,
+                        icon: Icons.location_on_outlined,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      CustomEditTextField(
+                        labelName: "Phone number",
+                        validator: AuthValidator.validSalonName,
+                        textEditingController:
+                            barberEditInfoViewModel.phoneController,
+                        obsecureText: false,
+                        icon: Icons.phone_outlined,
+                      ),
+                      const SizedBox(
+                        height: 40,
+                      ),
+                      CsutomAuthButton(
+                        buttonText: 'Update Informaition',
+                        textStyle: const TextStyle(
+                          color: AppColor.TEXT_SECONDARY,
+                          fontSize: 20,
+                        ),
+                        onPressed: () {
+                          barberEditInfoViewModel.updateBarberProfile(
+                              context, formState);
+                        },
+                      )
+                    ])),
               ],
             ),
           ),
