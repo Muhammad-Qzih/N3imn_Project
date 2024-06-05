@@ -28,21 +28,21 @@ class DateFormatter {
     return lastDayOfMonth.day - ((dayOfWeek + 1) % 7);
   }
 
-static  int calculateHourDifference(String startDateString, String endDateString) {
-  // Define the date format
-  DateFormat formatter = DateFormat('MMMM dd, yyyy hh:mm a');
+  static int calculateHourDifference(
+      String startDateString, String endDateString) {
+    // Define the date format
+    DateFormat formatter = DateFormat('MMMM dd, yyyy hh:mm a');
 
-  // Parse the input date strings into DateTime objects
-  DateTime startDate = formatter.parse(startDateString);
-  DateTime endDate = formatter.parse(endDateString);
+    // Parse the input date strings into DateTime objects
+    DateTime startDate = formatter.parse(startDateString);
+    DateTime endDate = formatter.parse(endDateString);
 
-  // Calculate the difference between the end date and start date
-  Duration difference = endDate.difference(startDate);
+    // Calculate the difference between the end date and start date
+    Duration difference = endDate.difference(startDate);
 
-  // Extract the number of hours from the difference
-  int hoursDifference = difference.inHours;
+    // Extract the number of hours from the difference
+    int hoursDifference = difference.inHours;
 
-  return hoursDifference;
-}
-
+    return hoursDifference;
+  }
 }

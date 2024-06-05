@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:n3imn_project_team/model/bookings_model.dart/booking_add_model.dart';
 import 'package:n3imn_project_team/model/bookings_model.dart/booking_model.dart';
 import 'package:n3imn_project_team/model/bookings_model.dart/booking_status.dart';
 
@@ -17,36 +18,43 @@ class BookingRepository implements IBookingRepository {
     return querySnapshot.docs.map((doc) => Booking.fromFirestore(doc)).toList();
   }
 
-  Future<List<Booking>> getCompletedBookingsByCustomerId(
+  Future<List<BookingModel>> getCompletedBookingsByCustomerId(
       String customerId) async {
     QuerySnapshot querySnapshot = await _bookingCollection
         .where('customerId', isEqualTo: customerId)
         .where('status', isEqualTo: 1)
         .get();
-  
-    return querySnapshot.docs.map((doc) => Booking.fromFirestore(doc)).toList();
+
+    return querySnapshot.docs
+        .map((doc) => BookingModel.fromFirestore(doc))
+        .toList();
   }
-    Future<List<Booking>> getCancelledBookingsByCustomerId(
+
+  Future<List<BookingModel>> getCancelledBookingsByCustomerId(
       String customerId) async {
     QuerySnapshot querySnapshot = await _bookingCollection
         .where('customerId', isEqualTo: customerId)
         .where('status', isEqualTo: 2)
         .get();
 
-    return querySnapshot.docs.map((doc) => Booking.fromFirestore(doc)).toList();
+    return querySnapshot.docs
+        .map((doc) => BookingModel.fromFirestore(doc))
+        .toList();
   }
-  Future<List<Booking>> getUpcomingBookingsByCustomerId(
+
+  Future<List<BookingModel>> getUpcomingBookingsByCustomerId(
       String customerId) async {
     QuerySnapshot querySnapshot = await _bookingCollection
         .where('customerId', isEqualTo: customerId)
         .where('status', isEqualTo: 0)
         .get();
-
-    return querySnapshot.docs.map((doc) => Booking.fromFirestore(doc)).toList();
+      
+    return querySnapshot.docs
+        .map((doc) => BookingModel.fromFirestore(doc))
+        .toList();
   }
 
-  Future<List<Booking>> getUpcomingBookingsByBarberId(
-      String barberId) async {
+  Future<List<Booking>> getUpcomingBookingsByBarberId(String barberId) async {
     QuerySnapshot querySnapshot = await _bookingCollection
         .where('barberId', isEqualTo: barberId)
         .where('status', isEqualTo: 0)
@@ -54,8 +62,8 @@ class BookingRepository implements IBookingRepository {
 
     return querySnapshot.docs.map((doc) => Booking.fromFirestore(doc)).toList();
   }
-  Future<bool> updateBookingStatus(String barberId, int status) async {
 
+  Future<bool> updateBookingStatus(String barberId, int status) async {
     return _bookingCollection.doc(barberId).update({
       'status': status,
     }).then((_) {
@@ -64,5 +72,9 @@ class BookingRepository implements IBookingRepository {
       print('Error updating booking status: $error');
       return false;
     });
+  }
+
+  Future<void> addCustomerBooking(BookingModel bookingModel) async {
+    await _bookingCollection.add(bookingModel.toMap());
   }
 }

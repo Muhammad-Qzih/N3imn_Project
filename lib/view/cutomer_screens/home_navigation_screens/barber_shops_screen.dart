@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:n3imn_project_team/model/user_model/barber_model.dart';
+import 'package:n3imn_project_team/model/user_model/services_model.dart';
 import 'package:n3imn_project_team/repositories/user_repo/barber_repsitory/barber_repo.dart';
 import 'package:n3imn_project_team/themes/colors_theme.dart';
 import 'package:n3imn_project_team/view/custom_components/general_components/custom_auth_button.dart';
@@ -17,6 +18,7 @@ class _BarbershopsScreenState extends State<BarbershopsScreen> {
   final _barberSalonsFuture = BarberRepository();
   bool isLoading = true;
   List<BarberSalon> _listBarbers = [];
+  final List<String> _services = [];
 
   getData() async {
     _listBarbers = await _barberSalonsFuture.getBarbers();
@@ -24,10 +26,30 @@ class _BarbershopsScreenState extends State<BarbershopsScreen> {
     setState(() {});
   }
 
+  getServices(String? barberid) async {
+    try {
+      BarberRepository barberRepository = BarberRepository();
+      final BarberService? services =
+          await barberRepository.getBarberServices(barberid!);
+
+      if (services != null) {
+        setState(() {
+          _services.addAll(services.services);
+        });
+      } else {
+        print("No services found!");
+        setState(() {});
+      }
+    } catch (e) {
+      print("Error fetching services: $e");
+      setState(() {});
+    }
+  }
+
   @override
   void initState() {
     getData();
-    
+
     super.initState();
   }
 
@@ -108,9 +130,7 @@ class _BarbershopsScreenState extends State<BarbershopsScreen> {
                                         Icons.location_on,
                                         color: AppColor.PRIMARY,
                                       ),
-                                      const SizedBox(
-                                          width:
-                                              5), // Add some space between icon and text
+                                      const SizedBox(width: 5),
                                       Expanded(
                                         child: Text(
                                           _listBarbers[i].location,
@@ -175,8 +195,14 @@ class _BarbershopsScreenState extends State<BarbershopsScreen> {
                                     child: CsutomAuthButton(
                                       buttonText: 'Book now',
                                       onPressed: () {
-                                        Navigator.of(context)
-                                            .pushNamed("cutomerbooking");
+                                        getServices(_listBarbers[i].id);
+                                        Navigator.of(context).pushNamed(
+                                          "cutomerbooking",
+                                          arguments: {
+                                            'barber': _listBarbers[i],
+                                            'services': _services,
+                                          },
+                                        );
                                       },
                                     ),
                                   ),

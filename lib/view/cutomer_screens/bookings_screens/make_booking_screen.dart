@@ -1,6 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:n3imn_project_team/model/bookings_model.dart/booking_add_model.dart';
+import 'package:n3imn_project_team/model/bookings_model.dart/booking_status.dart';
+import 'package:n3imn_project_team/model/user_model/barber_model.dart';
+import 'package:n3imn_project_team/repositories/user_repo/booking_repo/booking_repo.dart';
 import 'package:n3imn_project_team/themes/colors_theme.dart';
-import 'package:n3imn_project_team/utils/Dialogs/dialgos.dart';
 import 'package:n3imn_project_team/view/custom_components/general_components/booking_details_card.dart';
 
 class MakeBookingScreen extends StatefulWidget {
@@ -16,186 +22,79 @@ class _MakeBookingScreenState extends State<MakeBookingScreen> {
   int _totalTime = 0;
   String? _selectedTime;
 
-  final List<Map<String, dynamic>> _services = [
-    {'title': 'Haircut', 'time': 30},
-    {'title': 'Hair Style', 'time': 30},
-    {'title': 'Beard Style', 'time': 30},
-  ];
+  String? _selectedDate;
+
+  List<String> generateDates(int year, int month) {
+    List<String> dates = [];
+    int daysInMonth = DateTime(year, month + 1, 0).day;
+    for (int i = 1; i <= daysInMonth; i++) {
+      dates.add(DateFormat('MMM d, yyyy').format(DateTime(year, month, i)));
+    }
+    return dates;
+  }
+
+  late List<String> daysOfFebruary2024;
+
+  int currentIndex = 0;
+
+  List<String> availableTimes = [];
+
+  Future<List<String>> fetchBookedTimes(String date) async {
+    final snapshot = await FirebaseFirestore.instance
+        .collection('bookings')
+        .where('date', isEqualTo: date)
+        .get();
+
+    List<String> bookedTimes = [];
+    for (var doc in snapshot.docs) {
+      bookedTimes.add(doc['startBookingTime'] + ' - ' + doc['endBookingTime']);
+    }
+    return bookedTimes;
+  }
+
+  void _filterAvailableTimes() async {
+    List<String> bookedTimes =
+        await fetchBookedTimes(daysOfFebruary2024[currentIndex]);
+
+    setState(() {
+      availableTimes = mergedArray[0]['times']!
+          .where((time) => !bookedTimes.contains(time))
+          .toList();
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    daysOfFebruary2024 = generateDates(2024, 2);
+    _filterAvailableTimes();
+  }
 
   final List<Map<String, List<String>>> mergedArray = [
     {
       'times': [
-        '08:00 AM - 08:30 AM',
-        '09:00 AM - 09:30 AM',
-        '10:00 AM - 10:30 AM',
-        '03:00 PM - 03:30 PM',
-        '04:00 PM - 04:30 PM',
-      ]
-    },
-    {
-      'times': [
-        '08:00 AM - 08:30 AM',
-        '09:00 AM - 09:30 AM',
-        '10:00 AM - 10:30 AM',
-        '11:00 AM - 11:30 AM',
-        '12:00 PM - 12:30 PM',
-        '01:00 PM - 01:30 PM',
-        '02:00 PM - 02:30 PM',
-        '03:00 PM - 03:30 PM',
-        '04:00 PM - 04:30 PM',
-      ]
-    },
-    {
-      'times': [
-        '08:00 AM - 08:30 AM',
-        '09:00 AM - 09:30 AM',
-        '10:00 AM - 10:30 AM',
-        '11:00 AM - 11:30 AM',
-        '12:00 PM - 12:30 PM',
-        '01:00 PM - 01:30 PM',
-        '02:00 PM - 02:30 PM',
-        '03:00 PM - 03:30 PM',
-        '04:00 PM - 04:30 PM',
-      ]
-    },
-    {
-      'times': [
-        '02:00 PM - 02:30 PM',
-        '03:00 PM - 03:30 PM',
-        '04:00 PM - 04:30 PM',
-      ]
-    },
-    {
-      'times': [
-        '08:00 AM - 08:30 AM',
-        '09:00 AM - 09:30 AM',
-        '10:00 AM - 10:30 AM',
-        '11:00 AM - 11:30 AM',
-        '12:00 PM - 12:30 PM',
-        '01:00 PM - 01:30 PM',
-        '02:00 PM - 02:30 PM',
-        '03:00 PM - 03:30 PM',
-        '04:00 PM - 04:30 PM',
-      ]
-    },
-    {
-      'times': [
-        '08:00 AM - 08:30 AM',
-        '09:00 AM - 09:30 AM',
-        '10:00 AM - 10:30 AM',
-        '11:00 AM - 11:30 AM',
-        '12:00 PM - 12:30 PM',
-        '01:00 PM - 01:30 PM',
-        '02:00 PM - 02:30 PM',
-        '03:00 PM - 03:30 PM',
-        '04:00 PM - 04:30 PM',
-      ]
-    },
-    {
-      'times': [
-        '08:00 AM - 08:30 AM',
-        '09:00 AM - 09:30 AM',
-        '10:00 AM - 10:30 AM',
-        '11:00 AM - 11:30 AM',
-        '12:00 PM - 12:30 PM',
-        '01:00 PM - 01:30 PM',
-        '02:00 PM - 02:30 PM',
-        '03:00 PM - 03:30 PM',
-        '04:00 PM - 04:30 PM',
-      ]
-    },
-    {
-      'times': [
-        '08:00 AM - 08:30 AM',
-        '09:00 AM - 09:30 AM',
-        '10:00 AM - 10:30 AM',
-        '11:00 AM - 11:30 AM',
-        '12:00 PM - 12:30 PM',
-        '01:00 PM - 01:30 PM',
-        '02:00 PM - 02:30 PM',
-        '03:00 PM - 03:30 PM',
-        '04:00 PM - 04:30 PM',
-      ]
-    },
-    {
-      'times': [
-        '02:00 PM - 02:30 PM',
-        '03:00 PM - 03:30 PM',
-        '04:00 PM - 04:30 PM',
-      ]
-    },
-    {
-      'times': [
-        '02:00 PM - 02:30 PM',
-        '03:00 PM - 03:30 PM',
-        '04:00 PM - 04:30 PM',
-      ]
-    },
-    {
-      'times': [
-        '08:00 AM - 08:30 AM',
-        '09:00 AM - 09:30 AM',
-        '10:00 AM - 10:30 AM',
-        '11:00 AM - 11:30 AM',
-        '12:00 PM - 12:30 PM',
-        '01:00 PM - 01:30 PM',
-        '02:00 PM - 02:30 PM',
-        '03:00 PM - 03:30 PM',
-        '04:00 PM - 04:30 PM',
-      ]
-    },
-    {
-      'times': [
-        '02:00 PM - 02:30 PM',
-        '03:00 PM - 03:30 PM',
-        '04:00 PM - 04:30 PM',
-      ]
-    },
-    {
-      'times': [
-        '02:00 PM - 02:30 PM',
-        '03:00 PM - 03:30 PM',
-        '04:00 PM - 04:30 PM',
-      ]
-    },
-    {
-      'times': [
-        '08:00 AM - 08:30 AM',
-        '09:00 AM - 09:30 AM',
-        '10:00 AM - 10:30 AM',
-        '11:00 AM - 11:30 AM',
-        '12:00 PM - 12:30 PM',
-        '01:00 PM - 01:30 PM',
-        '02:00 PM - 02:30 PM',
-        '03:00 PM - 03:30 PM',
-        '04:00 PM - 04:30 PM',
+        '08:00 AM - 09:00 AM',
+        '10:00 AM - 11:00 AM',
+        '11:00 AM - 12:00 AM',
+        '12:00 AM - 01:00 AM',
+        '01:00 PM - 02:00 PM',
+        '02:00 PM - 03:00 PM',
+        '03:00 PM - 04:00 PM',
+        '04:00 PM - 05:00 PM',
+        '05:00 PM - 06:00 PM',
+        '06:00 PM - 07:00 PM',
+        '07:00 PM - 08:00 PM',
+        '08:00 PM - 09:00 PM',
+        '09:00 PM - 10:00 PM',
       ]
     },
   ];
-
-  final List<String> daysOfFebruary2024 = [
-    'Feb 1, 2024',
-    'Feb 2, 2024',
-    'Feb 3, 2024',
-    'Feb 4, 2024',
-    'Feb 5, 2024',
-    'Feb 6, 2024',
-    'Feb 7, 2024',
-    'Feb 8, 2024',
-    'Feb 9, 2024',
-    'Feb 10, 2024',
-    'Feb 11, 2024',
-    'Feb 12, 2024',
-    'Feb 13, 2024',
-    'Feb 14, 2024',
-  ];
-
-  int currentIndex = 0;
 
   void previousDate() {
     if (currentIndex > 0) {
       setState(() {
         currentIndex--;
+        _filterAvailableTimes();
       });
     }
   }
@@ -204,6 +103,7 @@ class _MakeBookingScreenState extends State<MakeBookingScreen> {
     if (currentIndex < daysOfFebruary2024.length - 1) {
       setState(() {
         currentIndex++;
+        _filterAvailableTimes();
       });
     }
   }
@@ -227,8 +127,21 @@ class _MakeBookingScreenState extends State<MakeBookingScreen> {
     }
   }
 
-  void _confirmStep() {
+  void _confirmStep(BarberSalon barber) async {
     _nextStep();
+    BookingRepository bookingRepository = BookingRepository();
+
+    await bookingRepository.addCustomerBooking(BookingModel(
+        location: barber.location,
+        barberSalonName: barber.shopName,
+        customerId: FirebaseAuth.instance.currentUser!.uid,
+        barberId: barber.id!,
+        startBookingTime: _selectedTime!.split(" - ")[0],
+        endBookingTime: _selectedTime!.split(" - ")[1],
+        services: _selectedServices,
+        status: BookingStatus.upcommingToAccept.index,
+        date: _selectedDate!));
+
     Navigator.of(context).pushReplacementNamed("customerhomepage");
   }
 
@@ -244,9 +157,10 @@ class _MakeBookingScreenState extends State<MakeBookingScreen> {
     });
   }
 
-  void _selectTime(String time) {
+  void _selectTime(String time, int currentIndex) {
     setState(() {
       _selectedTime = time;
+      _selectedDate = daysOfFebruary2024[currentIndex];
     });
   }
 
@@ -305,7 +219,7 @@ class _MakeBookingScreenState extends State<MakeBookingScreen> {
     );
   }
 
-  Widget _buildContent() {
+  Widget _buildContent(BarberSalon barberId, List<String> services) {
     switch (_currentStep) {
       case 0:
         return Expanded(
@@ -321,12 +235,12 @@ class _MakeBookingScreenState extends State<MakeBookingScreen> {
                     fontSize: 20,
                     fontWeight: FontWeight.bold),
               ),
-              ..._services.map((service) {
+              ...services.map((service) {
                 return CheckboxListTile(
-                  title: Text(service['title']),
-                  value: _selectedServices.contains(service['title']),
+                  title: Text(service),
+                  value: _selectedServices.contains(service),
                   onChanged: (bool? value) {
-                    _toggleServiceSelection(service['title'], service['time']);
+                    _toggleServiceSelection(service, 30);
                   },
                 );
               }),
@@ -393,19 +307,18 @@ class _MakeBookingScreenState extends State<MakeBookingScreen> {
               ),
               Expanded(
                 child: ListView(
-                  children: mergedArray[currentIndex]["times"]!.map((time) {
+                  children: availableTimes.map((time) {
                     bool isSelected = _selectedTime == time;
-                    bool isDisabled =
-                        false; // Logic to disable times (e.g., past times)
+                    bool isDisabled = false;
 
                     return GestureDetector(
-                      // ignore: dead_code
-                      onTap: isDisabled ? null : () => _selectTime(time),
+                      onTap: isDisabled
+                          ? null
+                          : () => _selectTime(time, currentIndex),
                       child: Card(
                         color: isSelected
                             ? AppColor.PRIMARY
                             : isDisabled
-                                // ignore: dead_code
                                 ? Colors.grey
                                 : Colors.white,
                         child: Padding(
@@ -422,9 +335,9 @@ class _MakeBookingScreenState extends State<MakeBookingScreen> {
                                 ),
                               ),
                               ElevatedButton(
-                                onPressed:
-                                    // ignore: dead_code
-                                    isDisabled ? null : () => _selectTime(time),
+                                onPressed: isDisabled
+                                    ? null
+                                    : () => _selectTime(time, currentIndex),
                                 style: ElevatedButton.styleFrom(
                                   foregroundColor: isSelected
                                       ? AppColor.PRIMARY
@@ -447,13 +360,19 @@ class _MakeBookingScreenState extends State<MakeBookingScreen> {
           ),
         );
       case 2:
-        return const Expanded(
+        return Expanded(
             child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 100,
             ),
-            BookingDetailsCard(),
+            BookingDetailsCard(
+              selectedServices: _selectedServices,
+              selectedTime: _selectedTime,
+              timeRequired: _totalTime,
+              selectedDate: _selectedDate,
+              barberSalon: barberId,
+            ),
           ],
         ));
       default:
@@ -463,6 +382,10 @@ class _MakeBookingScreenState extends State<MakeBookingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final argment = ModalRoute.of(context)!.settings.arguments as Map;
+    final barber = argment["barber"];
+    final services = argment["services"];
+
     return Scaffold(
       backgroundColor: AppColor.TEXT_SECONDARY,
       appBar: AppBar(
@@ -485,7 +408,7 @@ class _MakeBookingScreenState extends State<MakeBookingScreen> {
             const SizedBox(height: 20),
             _buildStepper(),
             const SizedBox(height: 20),
-            _buildContent(),
+            _buildContent(barber, services),
             Padding(
               padding: const EdgeInsets.only(bottom: 20, top: 20),
               child: Row(
@@ -499,9 +422,7 @@ class _MakeBookingScreenState extends State<MakeBookingScreen> {
                   if (_currentStep == 2)
                     CustomAuthButton(
                       buttonText: 'Confirm',
-                      onPressed: () => {
-                        _confirmStep()
-                      },
+                      onPressed: () => {_confirmStep(barber)},
                     ),
                   if (_currentStep != 2)
                     CustomAuthButton(

@@ -37,7 +37,8 @@ class DrawerMenu extends StatelessWidget {
     required VoidCallback onTap,
   }) {
     return ListTile(
-      title: Text(title),
+      iconColor: AppColor.TEXT_SECONDARY,
+      title: Text(title, style: const TextStyle(color:  AppColor.TEXT_SECONDARY),),
       leading: icon != null ? Icon(icon) : null,
       onTap: onTap,
     );
