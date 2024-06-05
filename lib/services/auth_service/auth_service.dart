@@ -58,7 +58,7 @@ class AuthService implements IAuth {
   Future<void> resetPassword(String email) async {
     await _auth.sendPasswordResetEmail(email: email);
   }
-
+  @override
   FirebaseAuth getAuthInstance() {
     return _auth;
   }

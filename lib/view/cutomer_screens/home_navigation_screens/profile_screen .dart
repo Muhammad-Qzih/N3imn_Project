@@ -9,7 +9,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:n3imn_project_team/model/user_model/customer_model.dart';
 import 'package:n3imn_project_team/themes/colors_theme.dart';
 import 'package:n3imn_project_team/view/custom_components/general_components/section_profile_component.dart';
-import 'package:n3imn_project_team/view/cutomer_screens/home_navigation_screens/customer_edit_info_screen.dart';
 import 'package:n3imn_project_team/view_model/customer_edit_info_view_model.dart';
 import 'package:n3imn_project_team/view_model/sotrage_view_models/fetch_picture_view_model.dart';
 

@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:n3imn_project_team/model/bookings_model.dart/booking_add_model.dart';
 import 'package:n3imn_project_team/model/user_model/customer_model.dart';
-import 'package:n3imn_project_team/repositories/user_repo/booking_repo/booking_repo.dart';
+import 'package:n3imn_project_team/repositories/booking_repo/booking_repo.dart';
 import 'package:n3imn_project_team/repositories/user_repo/customer_repository/csutomer_repo.dart';
 import 'package:n3imn_project_team/view/custom_components/general_components/reservation_card.dart';
 
@@ -77,7 +77,10 @@ class _BarberReservationsState extends State<BarberReservations> {
 
                         final customerName = customerInfo['name']!;
                         final customerPhone = customerInfo['phone']!;
-                        return ReservationCard(booking: booking, customerName: customerName,customerPhone:customerPhone);
+                        return ReservationCard(
+                            booking: booking,
+                            customerName: customerName,
+                            customerPhone: customerPhone);
                       },
                     ),
                   ),

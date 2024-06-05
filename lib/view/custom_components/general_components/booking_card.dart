@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:n3imn_project_team/model/bookings_model.dart/booking_add_model.dart';
+import 'package:n3imn_project_team/repositories/booking_repo/booking_repo.dart';
 import 'package:n3imn_project_team/themes/colors_theme.dart';
 
 class BookingCard extends StatefulWidget {
   final BookingModel booking;
+  
   const BookingCard({super.key, required this.booking});
 
   @override
@@ -11,6 +13,8 @@ class BookingCard extends StatefulWidget {
 }
 
 class _BookingCardState extends State<BookingCard> {
+  final _bookingRepo = BookingRepository();
+        
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
@@ -20,18 +24,20 @@ class _BookingCardState extends State<BookingCard> {
     switch (widget.booking.status) {
       case 0:
         buttonText = 'Cancel';
-        buttonAction = () {};
+        buttonAction = () async {
+          String? bookingId = widget.booking.id;
+        await  _bookingRepo.cancelBooking(bookingId);
+            Navigator.of(context).pushNamed("customerhomepage");
+        };
         break;
       case 1:
         buttonText = 'Feedback';
         buttonAction = () {
-          Navigator.of(context).pushNamed("feedback");
+          String? barberId = widget.booking.barberId;
+          Navigator.of(context).pushNamed("feedback",arguments:barberId);
         };
         break;
-      case 2:
-        buttonText = 'Re-book';
-        buttonAction = () {};
-        break;
+
       default:
         buttonText = '';
         buttonAction = () {};
@@ -146,6 +152,7 @@ class _BookingCardState extends State<BookingCard> {
                       ),
                     ],
                   ),
+                  if(widget.booking.status != 2)
                   ElevatedButton(
                     onPressed: buttonAction,
                     style: ElevatedButton.styleFrom(

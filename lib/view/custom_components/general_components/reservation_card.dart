@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:n3imn_project_team/model/bookings_model.dart/booking_add_model.dart';
-import 'package:n3imn_project_team/repositories/user_repo/booking_repo/booking_repo.dart';
+import 'package:n3imn_project_team/repositories/booking_repo/booking_repo.dart';
 import 'package:n3imn_project_team/themes/colors_theme.dart';
 
 class ReservationCard extends StatelessWidget {
@@ -20,7 +20,7 @@ class ReservationCard extends StatelessWidget {
     final bookingRepository = BookingRepository();
     ThemeData theme = Theme.of(context);
     return Card(
-      color: Color.fromARGB(255, 255, 255, 255),
+      color: const Color.fromARGB(255, 255, 255, 255),
       elevation: 5,
       margin: const EdgeInsets.all(8),
       child: Padding(
@@ -55,6 +55,7 @@ class ReservationCard extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             Text(
+              // ignore: prefer_interpolation_to_compose_strings
               'Date : ' +
                   booking.date +
                   "  " +

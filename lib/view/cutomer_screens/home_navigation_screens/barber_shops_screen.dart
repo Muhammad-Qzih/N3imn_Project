@@ -97,11 +97,12 @@ class _BarbershopsScreenState extends State<BarbershopsScreen> {
                           children: [
                             ClipRRect(
                               borderRadius: const BorderRadius.only(
-                                topRight: Radius.circular(20),
-                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(9),
+                                topLeft: Radius.circular(9),
                               ),
                               child: Image.network(
-                                "${_listBarbers[i].pictureUrl}",
+                                _listBarbers[i].pictureUrl ??
+                                    'https://ralfvanveen.com/wp-content/uploads/2021/06/Placeholder-_-Glossary-800x450.webp',
                                 height: 130,
                                 fit: BoxFit.cover,
                                 width: double.infinity,

@@ -16,6 +16,7 @@ class BookingRepository implements IBookingRepository {
     return querySnapshot.docs.map((doc) => Booking.fromFirestore(doc)).toList();
   }
 
+  @override
   Future<List<BookingModel>> getCompletedBookingsByCustomerId(
       String customerId) async {
     QuerySnapshot querySnapshot = await _bookingCollection
@@ -28,6 +29,7 @@ class BookingRepository implements IBookingRepository {
         .toList();
   }
 
+  @override
   Future<List<BookingModel>> getCancelledBookingsByCustomerId(
       String customerId) async {
     QuerySnapshot querySnapshot = await _bookingCollection
@@ -40,6 +42,7 @@ class BookingRepository implements IBookingRepository {
         .toList();
   }
 
+  @override
   Future<List<BookingModel>> getUpcomingBookingsByCustomerId(
       String customerId) async {
     QuerySnapshot querySnapshot = await _bookingCollection
@@ -52,6 +55,7 @@ class BookingRepository implements IBookingRepository {
         .toList();
   }
 
+  @override
   Future<bool> updateBookingStatus(String barberId, int status) async {
     return _bookingCollection.doc(barberId).update({
       'status': status,
@@ -63,10 +67,12 @@ class BookingRepository implements IBookingRepository {
     });
   }
 
+  @override
   Future<void> addCustomerBooking(BookingModel bookingModel) async {
     await _bookingCollection.add(bookingModel.toMap());
   }
 
+  @override
   Future<List<BookingModel>> getUpcomingToAccepctBookingsByBarberId(
       String barberId) async {
     QuerySnapshot querySnapshot = await _bookingCollection
@@ -78,6 +84,7 @@ class BookingRepository implements IBookingRepository {
         .toList();
   }
 
+  @override
   Future<List<BookingModel>> getUpcomingBookingsByBarberId(
       String barberId) async {
     QuerySnapshot querySnapshot = await _bookingCollection
@@ -90,6 +97,7 @@ class BookingRepository implements IBookingRepository {
         .toList();
   }
 
+  @override
   Future<void> accepctBooking(String barberId, String customerId, String date,
       String startBookingTime, String endBookingTime) async {
     QuerySnapshot querySnapshot = await _bookingCollection
@@ -108,6 +116,7 @@ class BookingRepository implements IBookingRepository {
     }
   }
 
+  @override
   Future<void> rejectBooking(String barberId, String custmoerId, String date,
       String startBookingTime, String endBookingTime) async {
     QuerySnapshot querySnapshot = await _bookingCollection
@@ -121,6 +130,23 @@ class BookingRepository implements IBookingRepository {
     if (querySnapshot.docs.isNotEmpty) {
       DocumentSnapshot document = querySnapshot.docs.first;
       await document.reference.update({'status': 3});
+    } else {
+      print('No matching booking found.');
+    }
+  }
+
+  @override
+  Future<void> cancelBooking(String? bookingId) async {
+    if (bookingId == null) {
+      print('Booking ID is null.');
+      return;
+    }
+    DocumentSnapshot documentSnapshot =
+        await _bookingCollection.doc(bookingId).get();
+
+    if (documentSnapshot.exists) {
+      await documentSnapshot.reference.update({'status': 3});
+      print('Booking status updated to 3.');
     } else {
       print('No matching booking found.');
     }

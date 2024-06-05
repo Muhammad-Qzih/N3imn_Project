@@ -10,6 +10,4 @@ void setupDependncyInjection() {
   getIt.registerSingleton(AppTheme());
   getIt.registerSingleton(AppColor());
   getIt.registerSingleton(AppTexts());
-  // getIt.registerSingleton(BarberRepository());
-  // getIt.registerSingleton(CustomerRepository());
 }

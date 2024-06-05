@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:n3imn_project_team/model/bookings_model.dart/booking_add_model.dart';
 import 'package:n3imn_project_team/model/bookings_model.dart/booking_status.dart';
 import 'package:n3imn_project_team/model/user_model/barber_model.dart';
-import 'package:n3imn_project_team/repositories/user_repo/booking_repo/booking_repo.dart';
+import 'package:n3imn_project_team/repositories/booking_repo/booking_repo.dart';
 import 'package:n3imn_project_team/themes/colors_theme.dart';
 import 'package:n3imn_project_team/view/custom_components/general_components/booking_details_card.dart';
 

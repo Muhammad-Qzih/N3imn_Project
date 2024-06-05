@@ -1,6 +1,4 @@
 import '../model/feedback_model.dart';
-import 'package:n3imn_project_team/repositories/feedback_repo.dart';
-
 import '../repositories/user_repo/feedback_repo.dart';
 
 class FeedbackService {
