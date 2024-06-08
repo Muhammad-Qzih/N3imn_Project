@@ -91,29 +91,59 @@ class _UpcomingSectionState extends State<UpcomingSection> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 1),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            GridView.builder(
-              shrinkWrap: true,
-              physics: const ClampingScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 1,
-                crossAxisSpacing: 10,
-                childAspectRatio: 1.6,
-              ),
-              itemCount: _listBookings1.length,
-              itemBuilder: (context, index) {
-                final booking = _listBookings1[index];
-                return BookingCard(booking: booking);
-              },
+    return _listBookings1.isEmpty
+        ? SizedBox(
+            width: 400,
+            height: 1000,
+            // Optional padding
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(
+                  height: 1,
+                ),
+                const Text(
+                  "There is no bookings yet!",
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(
+                  width: 400,
+                  height: 250,
+                  child: Image.asset(
+                    'Images/empty.png',
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    );
+          )
+        : Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 1),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  GridView.builder(
+                    shrinkWrap: true,
+                    physics: const ClampingScrollPhysics(),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 1,
+                      crossAxisSpacing: 10,
+                      childAspectRatio: 1.6,
+                    ),
+                    itemCount: _listBookings1.length,
+                    itemBuilder: (context, index) {
+                      final booking = _listBookings1[index];
+                      return BookingCard(booking: booking);
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
   }
 }
 
@@ -145,30 +175,60 @@ class _CompletedSectionState extends State<CompletedSection> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 1),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            GridView.builder(
-              shrinkWrap: true,
-              physics:
-                  const ClampingScrollPhysics(), // Enable scrolling for GridView
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 1, // Number of columns
-                crossAxisSpacing: 10, // Horizontal spacing between cards
-                childAspectRatio: 1.6, // Aspect ratio of each card
-              ),
-              itemCount: _listCompletedBookings.length,
-              itemBuilder: (context, index) {
-                final booking = _listCompletedBookings[index];
-                return BookingCard(booking: booking);
-              },
+    return _listCompletedBookings.isEmpty
+        ? SizedBox(
+            width: 400,
+            height: 1000,
+            // Optional padding
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(
+                  height: 1,
+                ),
+                const Text(
+                  "There is no bookings yet!",
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(
+                  width: 400,
+                  height: 250,
+                  child: Image.asset(
+                    'Images/empty.png',
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    );
+          )
+        : Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 1),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  GridView.builder(
+                    shrinkWrap: true,
+                    physics:
+                        const ClampingScrollPhysics(), // Enable scrolling for GridView
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 1, // Number of columns
+                      crossAxisSpacing: 10, // Horizontal spacing between cards
+                      childAspectRatio: 1.6, // Aspect ratio of each card
+                    ),
+                    itemCount: _listCompletedBookings.length,
+                    itemBuilder: (context, index) {
+                      final booking = _listCompletedBookings[index];
+                      return BookingCard(booking: booking);
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
   }
 }
 
@@ -198,28 +258,58 @@ class _CancelledSection extends State<CancelledSection> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 1),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            GridView.builder(
-              shrinkWrap: true,
-              physics: const ClampingScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 1,
-                crossAxisSpacing: 10,
-                childAspectRatio: 1.6,
-              ),
-              itemCount: _listCancelledBookings.length,
-              itemBuilder: (context, index) {
-                final booking = _listCancelledBookings[index];
-                return BookingCard(booking: booking);
-              },
+    return _listCancelledBookings.isEmpty
+        ? SizedBox(
+            width: 400,
+            height: 1000,
+            // Optional padding
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(
+                  height: 1,
+                ),
+                const Text(
+                  "There is no bookings yet!",
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(
+                  width: 400,
+                  height: 250,
+                  child: Image.asset(
+                    'Images/empty.png',
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    );
+          )
+        : Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 1),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  GridView.builder(
+                    shrinkWrap: true,
+                    physics: const ClampingScrollPhysics(),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 1,
+                      crossAxisSpacing: 10,
+                      childAspectRatio: 1.6,
+                    ),
+                    itemCount: _listCancelledBookings.length,
+                    itemBuilder: (context, index) {
+                      final booking = _listCancelledBookings[index];
+                      return BookingCard(booking: booking);
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
   }
 }

@@ -36,14 +36,14 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     getData();
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 3), () {
       setState(() {
         isLodding = false;
       });
     });
     super.initState();
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,34 +67,56 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 180,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 1),
-                    child: GridView.builder(
-                      scrollDirection: Axis.horizontal,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 1,
-                        mainAxisSpacing: 5,
-                        childAspectRatio: 0.76,
+                _listUpcommingBookings.isEmpty
+                    ? const SizedBox(
+                        height: 100,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 14),
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "There are no dates yet!",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                    : SizedBox(
+                        height: 180,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 1),
+                          child: GridView.builder(
+                            scrollDirection: Axis.horizontal,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 1,
+                              mainAxisSpacing: 5,
+                              childAspectRatio: 0.76,
+                            ),
+                            itemCount: _listUpcommingBookings.length,
+                            itemBuilder: (context, index) {
+                              final booking = _listUpcommingBookings[index];
+                              return BarberDateCard(
+                                date:
+                                    "${booking.date}, ${booking.startBookingTime}",
+                                salonName: booking.barberSalonName,
+                                services: booking.services,
+                                location: booking.location,
+                                onPressed: () {},
+                                width: 300,
+                                height: 160,
+                              );
+                            },
+                          ),
+                        ),
                       ),
-                      itemCount: _listUpcommingBookings.length,
-                      itemBuilder: (context, index) {
-                        final booking = _listUpcommingBookings[index];
-                        return BarberDateCard(
-                          date: "${booking.date}, ${booking.startBookingTime}",
-                          salonName: booking.barberSalonName,
-                          services: booking.services,
-                          location: booking.location,
-                          onPressed: () {},
-                          width: 300,
-                          height: 160,
-                        );
-                      },
-                    ),
-                  ),
-                ),
                 const SizedBox(height: 10),
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),

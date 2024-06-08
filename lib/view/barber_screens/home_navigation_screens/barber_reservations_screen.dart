@@ -61,7 +61,36 @@ class _BarberReservationsState extends State<BarberReservations> {
           ? const Center(
               child: CircularProgressIndicator(),
             )
-          : Column(
+          :  futureBookings.isEmpty
+              ? SizedBox(
+                  width: 400,
+                  height: 1000,
+                  // Optional padding
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(
+                        height: 1,
+                      ),
+                      const Text(
+                        "There is no customer bookings requests yet!",
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(
+                        width: 400,
+                        height: 300,
+                        child: Image.asset(
+                          'Images/managment-resrvations-empty.png',
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              :  Column(
               children: [
                 Expanded(
                   child: Padding(
