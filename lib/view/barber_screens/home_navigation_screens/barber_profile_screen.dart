@@ -66,7 +66,7 @@ class _BarberProfileState extends State<BarberProfile> {
 
       if (pictureExists) {
         String downloadUrl = await reference.getDownloadURL();
-    
+
         setState(() {
           imageUrl = downloadUrl;
         });

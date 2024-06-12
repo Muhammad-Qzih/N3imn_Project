@@ -151,4 +151,31 @@ class BookingRepository implements IBookingRepository {
       print('No matching booking found.');
     }
   }
+
+  Future<int> getCancelledBookingsCountByBarberId(String barberId) async {
+    QuerySnapshot querySnapshot = await _bookingCollection
+        .where('barberId', isEqualTo: barberId)
+        .where('status', isEqualTo: 2)
+        .get();
+
+    return querySnapshot.size;
+  }
+
+  Future<int> getCompletedBookingsCountByBarberId(String barberId) async {
+    QuerySnapshot querySnapshot = await _bookingCollection
+        .where('barberId', isEqualTo: barberId)
+        .where('status', isEqualTo: 1)
+        .get();
+
+    return querySnapshot.size;
+  }
+
+  Future<int> getUpcommingBookingsCountByBarberId(String barberId) async {
+    QuerySnapshot querySnapshot = await _bookingCollection
+        .where('barberId', isEqualTo: barberId)
+        .where('status', isEqualTo: 0)
+        .get();
+
+    return querySnapshot.size;
+  }
 }
