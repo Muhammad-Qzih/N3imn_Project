@@ -6,6 +6,7 @@ import 'package:n3imn_project_team/dep_injection/dependency_injection.dart';
 import 'package:n3imn_project_team/routes/routes.dart';
 import 'package:n3imn_project_team/themes/data_theme.dart';
 import 'package:n3imn_project_team/view/general_screens/login_screen.dart';
+import 'package:n3imn_project_team/view/general_screens/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,7 +38,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
         theme: AppTheme.getAppTheme(),
         debugShowCheckedModeBanner: false,
-        home: const LoginScreen(),
+        home: const splashScreen(),
         routes: Routes.getAllRoutes());
   }
 }
